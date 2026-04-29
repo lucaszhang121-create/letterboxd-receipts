@@ -12,7 +12,20 @@
           "package_name": "com.example.movie_club"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "720493517129-3qqcp3uulgcqm8tqbi5t4hsps80e8pib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movie_club",
+            "certificate_hash": "568f9a0d03c5c543da1357458b742378aeb1a5a1"
+          }
+        },
+        {
+          "client_id": "720493517129-rgdrijaqquaehaoshtibhpcj4pi0g9fc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDzWScmYHq9usVw6aherMuA6yTYLbUjSLw"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720493517129-rgdrijaqquaehaoshtibhpcj4pi0g9fc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "720493517129-1tth1mi4fjcmhgscbia67gqr5g8vqjb6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movieClub"
+              }
+            }
+          ]
         }
       }
     }

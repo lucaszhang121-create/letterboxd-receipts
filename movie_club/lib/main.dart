@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart'; //import whenever needed
 
 //So basically Dart freezes when running heavy tasks which stop execution of later code
 //To solve this heavy tasks typically return Future <Firebase App> as placeholder
