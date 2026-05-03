@@ -1,3 +1,43 @@
+const canvas = document.getElementById(`Rain`);
+const context = canvas.getContext(`2d`);
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+const latin = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+const digits = `0123456789`;
+
+const alphabet = katakana + latin + digits;
+
+const fontSize = 16;
+const columns = canvas.width/fontSize;
+
+const rainDrops = [];
+
+for (let i = 0; i < columns; i++){
+    rainDrops[i] = 1;
+}
+
+const draw = () => {
+    context.fillStyle = `rgba(0, 0, 0, 0.05)`;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = `#0F0`;
+    context.font = fontSize + `px monospace`;
+
+    for (let i = 0; i < rainDrops.length; i++){
+        const text = alphabet.charAt(Math.trunc(Math.random() * alphabet.length));
+        context.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+        if(rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975){
+            rainDrops[i] = 0;
+        }
+        rainDrops[i]++;
+    }
+};
+
+setInterval(draw, 30);
+
 /*Add flask+python backend later*/
 async function fetchMovies() {
     const username = document.getElementById('username').value;
