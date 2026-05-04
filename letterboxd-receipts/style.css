@@ -13,6 +13,20 @@ header {
     font-size: 24px;
 }
 
+.homepage {
+    color: #fff;
+    font-family: monospace;
+    justify-content: center; 
+    /*horizontal alignment*/
+    align-items: center;
+    /*vertical alignment*/
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    visibility: hidden;
+}
+
 body {
     background-color: #14181c;
     color: #fff;
