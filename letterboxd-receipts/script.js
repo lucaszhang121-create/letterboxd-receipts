@@ -19,8 +19,18 @@ for (let i = 0; i < columns; i++){
     rainDrops[i] = 1;
 }
 
+const drawBackground = () => {
+    context.fillStyle = `#0F0`;
+    context.font = fontSize + `px monospace`;
+    for (let x = 0; x < columns; x++){
+        for (let y = 0; y < canvas.height / fontSize; y++){
+            context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
+        }
+    }
+}
+
 const draw = () => {
-    context.fillStyle = `rgba(0, 0, 0, 0.05)`;
+    context.fillStyle = `rgba(20, 24, 28, 0.1)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     context.fillStyle = `#0F0`;
@@ -35,6 +45,12 @@ const draw = () => {
         rainDrops[i]++;
     }
 };
+
+/*for (let i = 0; i < 500; i++){
+    draw();
+}*/
+
+drawBackground();
 
 setInterval(draw, 30);
 
