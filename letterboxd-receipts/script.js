@@ -27,6 +27,10 @@ const drawBackground = () => {
             context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
         }
     }
+    context.fillStyle = `rgba(20, 24, 28, 0.1)`;
+    for (let i = 0; i < 500; i++){
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    }
 }
 
 const draw = () => {
@@ -51,8 +55,6 @@ const draw = () => {
 }*/
 
 drawBackground();
-
-setInterval(draw, 30);
 
 /*Add flask+python backend later*/
 async function fetchMovies() {
@@ -85,4 +87,5 @@ async function fetchMovies() {
             stars
         );
     }
+    setInterval(draw, 30);
 }
