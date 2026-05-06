@@ -4,26 +4,18 @@
     box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-    overflow: hidden;
-}
-
 header {
     font-size: 24px;
 }
 
 .homepage {
-    color: #fff;
-    font-family: monospace;
     justify-content: center; 
-    /*horizontal alignment*/
+    /*horizontal alignment normally but vertical alignment with column*/
     align-items: center;
-    /*vertical alignment*/
-    margin: 0;
+    /*vertical alignment normally but horizontal alignment with column*/
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     visibility: hidden;
 }
 
@@ -32,11 +24,8 @@ body {
     color: #fff;
     font-family: monospace;
     justify-content: center; 
-    /*horizontal alignment*/
     align-items: center;
-    /*vertical alignment*/
     height: 100vh;
-    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;

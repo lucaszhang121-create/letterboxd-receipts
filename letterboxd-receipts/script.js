@@ -57,7 +57,6 @@ const draw = () => {
 drawBackground();
 document.getElementById(`homepage`).style.visibility = "visible";
 
-/*Add flask+python backend later*/
 async function fetchMovies() {
     const username = document.getElementById('username').value;
     const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);
@@ -88,13 +87,13 @@ async function fetchMovies() {
             stars
         );
     }
-    /*context.fillStyle = `rgba(0, 255, 0, 0.25)`;
+    context.fillStyle = `rgba(0, 255, 0, 0.25)`;
     context.font = fontSize + `px monospace`;
     for (let x = 0; x < columns; x++){
         for (let y = 0; y < canvas.height / fontSize; y++){
             context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
         }
-    }*/
+    }
     document.getElementById(`homepage`).style.visibility = "hidden";
     setInterval(draw, 30);
 }
