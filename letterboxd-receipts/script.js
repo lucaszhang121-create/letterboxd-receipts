@@ -15,6 +15,19 @@ const columns = canvas.width/fontSize;
 
 const rainDrops = [];
 
+let alreadyRun = false; //not a problem when hiding the homepage but useful during testing
+
+if (true){
+const date = new Date();
+const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+};
+document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
+}
+
 for (let i = 0; i < columns; i++){
     rainDrops[i] = 1;
 }
@@ -50,50 +63,51 @@ const draw = () => {
     }
 };
 
-/*for (let i = 0; i < 500; i++){
-    draw();
-}*/
-
 drawBackground();
-document.getElementById(`homepage`).style.visibility = "visible";
+document.getElementById(`homepage`).style.display = "";
 
 async function fetchMovies() {
-    const username = document.getElementById('username').value;
-    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);
-    const text = await rssfeed.text();
+    if (!alreadyRun){
+        alreadyRun = true;
+        const username = document.getElementById('username').value;
+        const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);
+        const text = await rssfeed.text();
 
-    const parser = new DOMParser();
-    const xmlDocument = parser.parseFromString(text, "text/xml");
-    const items = xmlDocument.querySelectorAll("item");
-    const link = "https://letterboxd.com";
-    for (const each of items){
-        const title = each.getElementsByTagNameNS(link, "filmTitle")[0];
-        if (title == null) continue;
-        const year = each.getElementsByTagNameNS(link, "filmYear")[0];
-        const date = each.getElementsByTagNameNS(link, "watchedDate")[0];
-        
-        const rating = each.getElementsByTagNameNS(link, "memberRating")[0] ? each.getElementsByTagNameNS(link, "memberRating")[0].textContent : "No rating provided";
-        let stars = "";
-        if (rating){
-            for (let i = 0; i < Math.trunc(rating); i++){
-                stars += "★";
+        const parser = new DOMParser();
+        const xmlDocument = parser.parseFromString(text, "text/xml");
+        const items = xmlDocument.querySelectorAll("item");
+        const link = "https://letterboxd.com";
+        for (const each of items){
+            const title = each.getElementsByTagNameNS(link, "filmTitle")[0];
+            if (title == null) continue;
+            const year = each.getElementsByTagNameNS(link, "filmYear")[0];
+            const date = each.getElementsByTagNameNS(link, "watchedDate")[0];
+            
+            const rating = each.getElementsByTagNameNS(link, "memberRating")[0] ? each.getElementsByTagNameNS(link, "memberRating")[0].textContent : "No rating provided";
+            let stars = "";
+            if (rating){
+                for (let i = 0; i < Math.trunc(rating); i++){
+                    stars += "★";
+                }
+                parseFloat(rating) % 1 == 0.5 ? stars += "½" : "";
             }
-            parseFloat(rating) % 1 == 0.5 ? stars += "½" : "";
+            console.log(
+                title.textContent, 
+                year.textContent, 
+                date ? date.textContent : "No date provided", 
+                stars
+            );
         }
-        console.log(
-            title.textContent, 
-            year.textContent, 
-            date ? date.textContent : "No date provided", 
-            stars
-        );
-    }
-    context.fillStyle = `rgba(0, 255, 0, 0.25)`;
-    context.font = fontSize + `px monospace`;
-    for (let x = 0; x < columns; x++){
-        for (let y = 0; y < canvas.height / fontSize; y++){
-            context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
+        context.fillStyle = `rgba(0, 255, 0, 0.25)`;
+        context.font = fontSize + `px monospace`;
+        for (let x = 0; x < columns; x++){
+            for (let y = 0; y < canvas.height / fontSize; y++){
+                context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
+            }
         }
+        
+        document.getElementById(`homepage`).style.display = "none";
+        document.getElementById(`receipt`).style.display = "flex";
+        setInterval(draw, 30);
     }
-    document.getElementById(`homepage`).style.visibility = "hidden";
-    setInterval(draw, 30);
 }
