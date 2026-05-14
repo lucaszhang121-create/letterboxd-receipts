@@ -11,16 +11,17 @@
         <main>
         <input type="text" placeholder="Enter username" id="username">
         <button onclick="fetchMovies()">Generate</button>
-        <hr>
+        <hr style="margin-bottom: 3px;">
         </main>
         <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
         <div id="receipt">
-            <p id="title">jurassic park</p>
+            <p id="title"></p>
+            <p class="text" style="align-self: center;"> Ryan Coogler</p>
             <p class="text" id="name" style="font-weight: 450;">order #0001</p>
             <p class="text" id="date" style="font-weight: 450;"></p>
             <p class="divider" id="firstDivider"></p>
-            <p class="text" style="padding-top: 0px;">qty</p>
+            <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
             <p class="divider" id="secondDivider"></p>
         </div>
         <script src="script.js"></script>

@@ -65,6 +65,7 @@ async function fetchMovies() {
     const link = "https://letterboxd.com";
     const dateTest = items[0];
 
+    let alreadyRun = false;
     //testing the items
     for (const each of items){
         const title = each.getElementsByTagNameNS(link, "filmTitle")[0];
@@ -86,6 +87,11 @@ async function fetchMovies() {
             date ? date.textContent : "No date provided", 
             stars
         );
+        if (!alreadyRun){
+            alreadyRun = true;
+            document.getElementById('title').textContent += title.textContent;
+            document.getElementById('rating').textContent += stars;
+        }
     }
         
     const watchedDate = dateTest.getElementsByTagNameNS(link, "watchedDate")[0].textContent;
@@ -104,7 +110,7 @@ async function fetchMovies() {
             weekday: "long",
             year: "numeric",
             month: "long",
-            day: numeric
+            day: "numeric"
         };
         document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
     }
