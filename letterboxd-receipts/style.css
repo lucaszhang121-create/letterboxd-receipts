@@ -25,7 +25,9 @@ header {
     height: 23rem;
     width: 20rem;
     background-image: url("thermal-paper.jpg");
-    padding: 15px;
+    padding: 1rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
     align-items: center;
     color: rgba(0,0,0,0.75);
 }
@@ -44,15 +46,23 @@ header {
     text-wrap: balance;
 }
 
-.date {
+.text {
     padding-top: 5px;
-    padding-left: 5px;
     align-self: start;
     font-family: "Anonymous Pro", monospace;
     font-size: 0.85rem;
     line-height: 0.85rem;
     text-transform: uppercase;
     font-weight: 450;
+}
+
+.divider {
+    align-self: start;
+    font-family: "Anonymous Pro", monospace;
+    font-size: 0.7rem;
+    line-height: 0.5rem;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
 }
 
 body {
