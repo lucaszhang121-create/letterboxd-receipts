@@ -19,6 +19,27 @@ header {
     gap: 5px;
 }
 
+#selection-window {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.rectangle {
+    background-color: #14181c;
+    height: 3rem;
+    width: 21rem;
+    padding-top: 0.65rem;
+    text-transform: uppercase;
+    border-color: #00e054;
+    border: 2px solid #00e054;
+    color: grey;
+    font-family: monospace;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
 #receipt {
     display: none;
     flex-direction: column;

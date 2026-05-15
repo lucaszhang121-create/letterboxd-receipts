@@ -20,7 +20,11 @@ for (let i = 0; i < columns; i++){
     rainDrops[i] = 1;
 }
 
-const drawBackground = () => {
+drawGrid();
+document.getElementById(`homepage`).style.display = "";
+document.getElementById(`selection-window`).style.display = "none";
+
+function drawGrid(){
     context.fillStyle = `#0F0`;
     context.font = fontSize + `px monospace`;
     for (let x = 0; x < columns; x++){
@@ -35,7 +39,7 @@ const drawBackground = () => {
 }
 
 //matrix rain effect
-const draw = () => {
+function digitalRain(){
     context.fillStyle = `rgba(20, 24, 28, 0.1)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -52,12 +56,10 @@ const draw = () => {
     }
 };
 
-drawBackground();
-document.getElementById(`homepage`).style.display = "";
-
 async function fetchMovies() {
-    const username = document.getElementById('username').value;
-    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);        const text = await rssfeed.text();
+    const username = document.getElementById('username').value; //user input for username
+    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);        
+    const text = await rssfeed.text();
 
     const parser = new DOMParser();
     const xmlDocument = parser.parseFromString(text, "text/xml");
@@ -93,27 +95,20 @@ async function fetchMovies() {
             document.getElementById('rating').textContent += stars;
         }
     }
-        
+    
+    //print date
     const watchedDate = dateTest.getElementsByTagNameNS(link, "watchedDate")[0].textContent;
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    };
+    let date = new Date();
     if (watchedDate != null){ //change to if you have a watchedDate
-        const date = new Date(watchedDate);
-        const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        };
-        document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
-    } else {
-        const date = new Date();
-        const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        };
-        document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
+        date = new Date(watchedDate);
     }
+    document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
     
     context.fillStyle = `rgba(0, 255, 0, 0.25)`;
     context.font = fontSize + `px monospace`;
@@ -124,12 +119,17 @@ async function fetchMovies() {
     }
         
     document.getElementById(`homepage`).style.display = "none";
+    await setTimeout(2000);
     document.getElementById(`receipt`).style.display = "flex";
 
+    
+    printDividers();
+    setInterval(digitalRain, 30);
+}
+
+async function printDividers(){
     const dividers = document.getElementsByClassName("divider");
     for (const divider of dividers){
         divider.innerText += "-".repeat(textColumns);
     }
-
-    setInterval(draw, 30);
 }
