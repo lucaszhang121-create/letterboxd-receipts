@@ -56,6 +56,14 @@ function digitalRain(){
     }
 };
 
+let alreadyRun = false;
+
+const movieNames = [];
+const links = [];
+const releaseYears = [];
+const initialWatchDates = [];
+const starRatings = [];
+
 async function fetchMovies() {
     const username = document.getElementById('username').value; //user input for username
     const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);        
@@ -64,67 +72,81 @@ async function fetchMovies() {
     const parser = new DOMParser();
     const xmlDocument = parser.parseFromString(text, "text/xml");
     const items = xmlDocument.querySelectorAll("item");
-    const link = "https://letterboxd.com";
-    const dateTest = items[0];
+    const lb = "https://letterboxd.com";
+    const dateTest = items[0]; //will need to change later so user can choose which one to make receipt of
 
-    let alreadyRun = false;
     //testing the items
-    for (const each of items){
-        const title = each.getElementsByTagNameNS(link, "filmTitle")[0];
-        if (title == null) continue;
-        const year = each.getElementsByTagNameNS(link, "filmYear")[0];
-        const date = each.getElementsByTagNameNS(link, "watchedDate")[0];
-            
-        const rating = each.getElementsByTagNameNS(link, "memberRating")[0] ? each.getElementsByTagNameNS(link, "memberRating")[0].textContent : "No rating provided";
-        let stars = "";
-        if (rating){
-            for (let i = 0; i < Math.trunc(rating); i++){
-                stars += "★";
-            }
-            parseFloat(rating) % 1 == 0.5 ? stars += "½" : "";
+    for (let i = 0; i < 5; i++){
+        const each = items[i];
+        const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
+        const link = each.getElementsByTagName("link")[0];
+        const year = each.getElementsByTagNameNS(lb, "filmYear")[0];
+        const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
+        const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
+        
+        movieNames[i] = title.textContent;
+        links[i] = link;
+        releaseYears[i] = year.textContent;
+
+        //convert to date format
+        const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        };
+        let watchedDate = new Date();
+        if (date){
+            watchedDate = new Date(date);
         }
-        console.log(
-            title.textContent, 
-            year.textContent, 
-            date ? date.textContent : "No date provided", 
-            stars
-        );
-        if (!alreadyRun){
+        initialWatchDates[i] = document.getElementById("date").innerText = watchedDate.toLocaleDateString('en-US', options);
+
+        //convert to star rating
+        let stars = "";
+        for (let i = 0; i < Math.trunc(rating); i++){
+            stars += "★";
+        }
+        if (parseFloat(rating) % 1 == 0.5){
+            stars += "½";
+        }
+        starRatings[i] = stars;
+
+        /*if (!alreadyRun){
             alreadyRun = true;
+            console.log(link.textContent.replace("/" + username.toLowerCase(), ""));
             document.getElementById('title').textContent += title.textContent;
             document.getElementById('rating').textContent += stars;
-        }
+        }*/
     }
     
-    //print date
-    const watchedDate = dateTest.getElementsByTagNameNS(link, "watchedDate")[0].textContent;
-    const options = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    };
-    let date = new Date();
-    if (watchedDate != null){ //change to if you have a watchedDate
-        date = new Date(watchedDate);
-    }
-    document.getElementById("date").innerText = date.toLocaleDateString('en-US', options);
-    
-    context.fillStyle = `rgba(0, 255, 0, 0.25)`;
+    /*context.fillStyle = `rgba(0, 255, 0, 0.25)`;
     context.font = fontSize + `px monospace`;
     for (let x = 0; x < columns; x++){
         for (let y = 0; y < canvas.height / fontSize; y++){
             context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
         }
-    }
+    }*/
         
     document.getElementById(`homepage`).style.display = "none";
-    await setTimeout(2000);
-    document.getElementById(`receipt`).style.display = "flex";
+    document.getElementById(`selection-window`).style.display = "flex";
+    const buttons = document.getElementsByClassName(`rectangle`);
+    for (let i = 0; i < buttons.length; i++){
+        buttons[i].textContent = movieNames[i];
+    }
 
-    
-    printDividers();
-    setInterval(digitalRain, 30);
+    //setInterval(digitalRain, 30);
+}
+
+async function printReceipt(id){
+    document.getElementById(`receipt`).style.display = "flex";
+    //console.log(link.textContent.replace("/" + username.toLowerCase(), ""));
+    document.getElementById('title').textContent = movieNames[id - 1];
+    document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
+    document.getElementById(`date`).textContent = initialWatchDates[id - 1];
+    if (!alreadyRun){
+        alreadyRun = true;
+        printDividers();
+    }
 }
 
 async function printDividers(){

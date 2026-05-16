@@ -15,22 +15,25 @@
         </main>
         <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
-        <div id="selection-window">
-            <header>Create a receipt for:</header>
-            <button class="rectangle">avengers: infinity war</button>
-            <button class="rectangle">spider-man: no way home</button>
-            <button class="rectangle">arrival</button>
-            <button class="rectangle">dune: part two</button>
-            <button class="rectangle">creed</button>
-        </div>
-        <div id="receipt">
-            <p id="title"></p>
-            <p class="text" style="align-self: center;"> Ryan Coogler</p>
-            <p class="text" id="name" style="font-weight: 450;">order #0001</p>
-            <p class="text" id="date" style="font-weight: 450;"></p>
-            <p class="divider" id="firstDivider"></p>
-            <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
-            <p class="divider" id="secondDivider"></p>
+        <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center;">
+            <div id="receipt">
+                <p id="title"></p>
+                <p class="text" id="director" style="align-self: center; margin-bottom: 0.15rem;">from Ryan Coogler</p>
+                <p class="text" id="name" style="font-weight: 450;">order #0001</p>
+                <p class="text" id="date" style="font-weight: 450;"></p>
+                <p class="divider" id="firstDivider"></p>
+                <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
+                <p class="divider" id="secondDivider"></p>
+                <img id="barcode" src="barcode.png">
+            </div>
+            <div id="selection-window">
+                <header>Create a receipt for:</header>
+                <button onclick="printReceipt(1)" class="rectangle">avengers: infinity war</button>
+                <button onclick="printReceipt(2)" class="rectangle">spider-man: no way home</button>
+                <button onclick="printReceipt(3)" class="rectangle">arrival</button>
+                <button onclick="printReceipt(4)" class="rectangle">dune: part two</button>
+                <button onclick="printReceipt(5)" class="rectangle">creed</button>
+            </div>
         </div>
         <script src="script.js"></script>
     </body>

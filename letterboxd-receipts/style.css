@@ -19,6 +19,11 @@ header {
     gap: 5px;
 }
 
+#barcode {
+    width: 10rem; 
+    height: 2.5rem;
+}
+
 #selection-window {
     display: flex;
     align-items: center;
