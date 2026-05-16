@@ -5,10 +5,38 @@
     overflow: hidden;
 }
 
-header {
-    font-size: 23px;
+body {
+    background-color: #14181c;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: monospace;
+    justify-content: center; 
+    align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
+canvas {
+    z-index: -1;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #00e054;
+    color: black;
+    border: 2px solid #14181c;
+    font-family: monospace;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/*Homepage*/
 #homepage {
     justify-content: center; 
     /*horizontal alignment normally but vertical alignment with column*/
@@ -18,19 +46,37 @@ header {
     flex-direction: column;
     gap: 5px;
 }
-
-#barcode {
-    width: 10rem; 
-    height: 2.5rem;
+header {
+    font-size: 23px;
+}
+input {
+    padding: 10px;
+    border: 2px solid #00e054;
+    background-color: #14181c;
+    color: white;
+    font-family: monospace;
+    font-size: 16px;
+    outline: none; /*prevents blue glow around inputs after clicked*/
+}
+hr {
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+}
+footer {
+    font-size: 16px;
+}
+a {
+    color: rgba(255, 255, 255, 0.85);
 }
 
+/*Selection window*/
 #selection-window {
-    display: flex;
+    display: none;
     align-items: center;
     flex-direction: column;
     gap: 5px;
 }
-
 .rectangle {
     background-color: #14181c;
     height: 3rem;
@@ -45,6 +91,7 @@ header {
     text-align: center;
 }
 
+/*Receipt*/
 #receipt {
     display: none;
     flex-direction: column;
@@ -57,7 +104,6 @@ header {
     align-items: center;
     color: rgba(0, 0, 0, 0.75);
 }
-
 #title {
     padding-top: 1rem;
     padding-left: 1rem;
@@ -70,7 +116,6 @@ header {
     word-break: break-word;
     text-wrap: balance;
 }
-
 .text {
     padding-top: 5px;
     align-self: start;
@@ -80,7 +125,6 @@ header {
     text-transform: uppercase;
     font-weight: 450;
 }
-
 .divider {
     align-self: start;
     font-family: "Anonymous Pro", monospace;
@@ -89,58 +133,7 @@ header {
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
 }
-
-body {
-    background-color: #14181c;
-    color: rgba(255, 255, 255, 0.85);
-    font-family: monospace;
-    justify-content: center; 
-    align-items: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-input {
-    padding: 10px;
-    border: 2px solid #00e054;
-    background-color: #14181c;
-    color: white;
-    font-family: monospace;
-    font-size: 16px;
-    outline: none; /*prevents blue glow around inputs after clicked*/
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #00e054;
-    color: black;
-    border: 2px solid #14181c;
-    font-family: monospace;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-hr {
-    margin: 10px 0;
-    width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-}
-
-footer {
-    font-size: 16px;
-}
-
-a {
-    color: rgba(255, 255, 255, 0.85);
-}
-
-canvas {
-    z-index: -1;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
+#barcode {
+    width: 10rem; 
+    height: 2.5rem;
 }

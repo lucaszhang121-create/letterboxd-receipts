@@ -1,3 +1,5 @@
+//Need to add tmdb api but also build functionality to handle 429 threshold
+
 const canvas = document.getElementById(`Rain`);
 const context = canvas.getContext(`2d`);
 
@@ -22,7 +24,6 @@ for (let i = 0; i < columns; i++){
 
 drawGrid();
 document.getElementById(`homepage`).style.display = "";
-document.getElementById(`selection-window`).style.display = "none";
 
 function drawGrid(){
     context.fillStyle = `#0F0`;
