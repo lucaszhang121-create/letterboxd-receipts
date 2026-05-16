@@ -97,13 +97,20 @@ async function fetchMovies() {
         const each = items[i];
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
         if (title == null) continue;
-        const link = each.getElementsByTagName("link")[0];
+        const link = each.getElementsByTagName("link")[0].textContent;
         const year = each.getElementsByTagNameNS(lb, "filmYear")[0];
         const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
         const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
         
+        //converts user-specific link to film link
         movieNames[i] = title.textContent;
-        links[i] = link.textContent;
+        const httpsIndex = link.indexOf("https://") + 8;
+        const firstSlash = link.indexOf("/", httpsIndex);
+        const secondSlash = link.indexOf("/", firstSlash + 1);
+        const thirdSlash = link.indexOf("/", secondSlash + 1);
+        const fourthSlash = link.indexOf("/", thirdSlash + 1);
+        links[i] = link.substring(0, firstSlash) + link.substring(secondSlash, fourthSlash + 1);
+        console.log(links[i]);
         releaseYears[i] = year.textContent;
 
         //convert to date format
