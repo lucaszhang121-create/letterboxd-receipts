@@ -64,8 +64,16 @@ const releaseYears = [];
 const initialWatchDates = [];
 const starRatings = [];
 
+async function noUsername(){
+    //do later
+}
+
 async function fetchMovies() {
     const username = document.getElementById('username').value; //user input for username
+    if (username == ""){
+        noUsername();
+        return;
+    }
     const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);        
     const text = await rssfeed.text();
 
@@ -87,13 +95,14 @@ async function fetchMovies() {
     for (let i = 0; i < numMovies; i++){
         const each = items[i];
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
+        if (title == null) continue;
         const link = each.getElementsByTagName("link")[0];
         const year = each.getElementsByTagNameNS(lb, "filmYear")[0];
         const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
         const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
         
         movieNames[i] = title.textContent;
-        links[i] = link;
+        links[i] = link.textContent;
         releaseYears[i] = year.textContent;
 
         //convert to date format
