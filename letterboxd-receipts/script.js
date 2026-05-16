@@ -155,3 +155,9 @@ async function printDividers(){
         divider.innerText += "-".repeat(textColumns);
     }
 }
+
+function homepage(){
+    document.getElementById(`receipt`).style.display = "none";
+    document.getElementById(`selection-window`).style.display = "none";
+    document.getElementById(`homepage`).style.display = "flex";
+}
