@@ -75,8 +75,16 @@ async function fetchMovies() {
     const lb = "https://letterboxd.com";
     const dateTest = items[0]; //will need to change later so user can choose which one to make receipt of
 
+    let numMovies = 5;
+    if (items.length < 5){
+        numMovies = items.length;
+    }
+    if (items.length < 1){
+        console.log("No movies found.");
+        return;
+    }
     //testing the items
-    for (let i = 0; i < 5; i++){
+    for (let i = 0; i < numMovies; i++){
         const each = items[i];
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
         const link = each.getElementsByTagName("link")[0];
@@ -110,13 +118,6 @@ async function fetchMovies() {
             stars += "½";
         }
         starRatings[i] = stars;
-
-        /*if (!alreadyRun){
-            alreadyRun = true;
-            console.log(link.textContent.replace("/" + username.toLowerCase(), ""));
-            document.getElementById('title').textContent += title.textContent;
-            document.getElementById('rating').textContent += stars;
-        }*/
     }
     
     /*context.fillStyle = `rgba(0, 255, 0, 0.25)`;
