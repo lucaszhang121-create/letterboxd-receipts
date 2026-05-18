@@ -75,7 +75,7 @@ async function fetchMovies() {
         noUsername();
         return;
     }
-    const rssfeed = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);
+    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/?random=${Date.now()}`)}`);
     const text = await rssfeed.text();
 
     const parser = new DOMParser();
@@ -157,8 +157,10 @@ async function fetchMovies() {
 async function printReceipt(id){
     //await fetchOrderNumber();
     document.getElementById(`receipt`).style.display = "flex";
-    //console.log(link.textContent.replace("/" + username.toLowerCase(), ""));
     document.getElementById('title').textContent = movieNames[id - 1];
+    if (starRatings[id - 1] == ("")){
+        starRatings[id - 1] = "No rating";
+    }
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     if (!alreadyRun){
