@@ -64,6 +64,7 @@ const links = [];
 const releaseYears = [];
 const initialWatchDates = [];
 const starRatings = [];
+const tmdbIds = [];
 
 async function noUsername(){
     //do later
@@ -100,6 +101,9 @@ async function fetchMovies() {
         const year = each.getElementsByTagNameNS(lb, "filmYear")[0];
         const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
         const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
+        const tmdbId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0] ? 
+            each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent: 
+            each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0].textContent;
         
         //converts user-specific link to film link
         movieNames[i] = title.textContent;
@@ -111,6 +115,7 @@ async function fetchMovies() {
         links[i] = link.substring(0, firstSlash) + link.substring(secondSlash, fourthSlash + 1);
         console.log(links[i]);
         releaseYears[i] = year.textContent;
+        tmdbIds[i] = tmdbId;
 
         //convert to date format
         const options = {
@@ -158,6 +163,7 @@ async function printReceipt(id){
     //await fetchOrderNumber();
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
+    document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
     if (starRatings[id - 1] == ("")){
         starRatings[id - 1] = "No rating";
     }
@@ -167,6 +173,18 @@ async function printReceipt(id){
         alreadyRun = true;
         printDividers();
     }
+}
+
+async function getDirector(id){
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const link = `https://api.themoviedb.org/3/movie/${id}/credits`;
+
+    const options = {method: 'GET', headers: {accept: 'application/json'}};
+
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`, options)
+    const data = await res.json();
+    const directorName = data.crew.find(person => person.job === "Director").name;
+    return directorName;
 }
 
 async function fetchOrderNumber(){
