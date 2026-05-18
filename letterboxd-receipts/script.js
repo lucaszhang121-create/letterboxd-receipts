@@ -138,6 +138,9 @@ async function fetchMovies() {
         if (parseFloat(rating) % 1 == 0.5){
             stars += "½";
         }
+        if (each.getElementsByTagNameNS(lb, "memberLike")[0].textContent == "Yes"){
+            stars += " ❤︎";
+        }
         starRatings[i] = stars;
     }
     
