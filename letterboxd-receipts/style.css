@@ -143,3 +143,15 @@ a {
     width: 11.5rem;
     filter: grayscale(100%) brightness(65%);
 }
+
+.frame {
+    display: none;
+    padding: 0.75rem;
+    background-color: black;
+    align-items: center;
+    justify-items: center;
+}
+
+.poster {
+    display: flex;
+}

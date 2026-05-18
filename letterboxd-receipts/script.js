@@ -164,10 +164,13 @@ async function fetchMovies() {
 
 async function printReceipt(id){
     //await fetchOrderNumber();
+    for (frame of document.getElementsByClassName(`frame`)){
+        frame.style.display = "flex";
+    }
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
-    getPoster(tmdbIds[id - 1]);
+    await getPoster(tmdbIds[id - 1]);
     if (starRatings[id - 1] == ("")){
         starRatings[id - 1] = "No rating";
     }
@@ -191,7 +194,9 @@ async function getPoster(id){
 
     const poster = data.posters[0];
     const filePath = poster.file_path;
-    document.getElementById(`poster`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+    for (eachPoster of document.getElementsByClassName(`poster`)){
+        eachPoster.src = `https://image.tmdb.org/t/p/w500${filePath}`;
+    }
 }
 
 async function getDirector(id){
@@ -227,4 +232,7 @@ function homepage(){
     document.getElementById(`selection-window`).style.display = "none";
     document.getElementById(`homepage`).style.display = "flex";
     document.getElementById(`secondPage`).style.display = "none";
+    for (frame of document.getElementsByClassName(`frame`)){
+        frame.style.display = "none";
+    }
 }
