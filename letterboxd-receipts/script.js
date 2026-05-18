@@ -169,6 +169,7 @@ async function printReceipt(id){
     }
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
+    document.getElementById(`number`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
     if (!alreadyRun){
         alreadyRun = true;
         printDividers();
