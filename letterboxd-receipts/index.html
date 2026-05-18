@@ -5,7 +5,9 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <nav style="font-size: 1rem; position: fixed; top: 3rem; left: 3rem;"><button onclick="homepage()" style="background-color: grey;">HOME</button></nav>
+        <nav style="font-size: 1rem; position: fixed; top: 3rem; left: 3rem;">
+            <button onclick="homepage()" style="background-color: #00e054; border-radius: 2px; border-color: #14181c; color: #14181c;">HOME</button>
+        </nav>
         <canvas id="Rain"></canvas>
         <div id="homepage">
         <header>Letterboxd Receipt Printer</header>
@@ -20,12 +22,14 @@
             <div id="receipt">
                 <p id="title"></p>
                 <p class="text" id="director" style="align-self: center; margin-bottom: 0.15rem;">from Ryan Coogler</p>
-                <p class="text" id="name" style="font-weight: 450;">order #0001</p>
+                <p class="text" id="number" style="font-weight: 450;">order #</p>
                 <p class="text" id="date" style="font-weight: 450;"></p>
                 <p class="divider" id="firstDivider"></p>
                 <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
                 <p class="divider" id="secondDivider"></p>
+                <p class="text" style="align-self: center; text-transform: uppercase;">Thank you for visiting!</p>
                 <img id="barcode" src="barcode.png">
+                <p>letterboxd.receipt.com</p>
             </div>
             <div id="selection-window">
                 <header>Create a receipt for:</header>

@@ -75,14 +75,13 @@ async function fetchMovies() {
         noUsername();
         return;
     }
-    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);        
+    const rssfeed = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`);
     const text = await rssfeed.text();
 
     const parser = new DOMParser();
     const xmlDocument = parser.parseFromString(text, "text/xml");
     const items = xmlDocument.querySelectorAll("item");
     const lb = "https://letterboxd.com";
-    const dateTest = items[0]; //will need to change later so user can choose which one to make receipt of
 
     let numMovies = 5;
     if (items.length < 5){
@@ -92,7 +91,7 @@ async function fetchMovies() {
         console.log("No movies found.");
         return;
     }
-    //testing the items
+
     for (let i = 0; i < numMovies; i++){
         const each = items[i];
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
@@ -156,6 +155,7 @@ async function fetchMovies() {
 }
 
 async function printReceipt(id){
+    //await fetchOrderNumber();
     document.getElementById(`receipt`).style.display = "flex";
     //console.log(link.textContent.replace("/" + username.toLowerCase(), ""));
     document.getElementById('title').textContent = movieNames[id - 1];
@@ -165,6 +165,15 @@ async function printReceipt(id){
         alreadyRun = true;
         printDividers();
     }
+}
+
+async function fetchOrderNumber(){
+    const res = await fetch("https://new-piranha-128179.upstash.io/incr/receipt-counter", {
+        headers: {Authorization: "Bearer gwAAAAAAAfSzAAIMQHAxcmVjZWlwdC11c2VyDSYoIw7ypTkOrG5ZBtrNsZhwYgWT63mT6DJqaC9W2zJKsO04diE2jTkCwp1TGCP64rh5rQoyj9_iSSQMgJbA3w" }
+    });
+    const data = await res.json();
+    const orderNum = data.result;
+    document.getElementById(`number`).textContent = `#${String(orderNum).padStart(4, '0')}`;
 }
 
 async function printDividers(){

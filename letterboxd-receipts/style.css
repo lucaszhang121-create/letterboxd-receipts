@@ -136,4 +136,6 @@ a {
 #barcode {
     width: 10rem; 
     height: 2.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
 }
