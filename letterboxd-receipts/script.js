@@ -151,7 +151,7 @@ async function fetchMovies() {
             context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
         }
     }*/
-        
+    document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`homepage`).style.display = "none";
     document.getElementById(`selection-window`).style.display = "flex";
     const buttons = document.getElementsByClassName(`rectangle`);
@@ -167,6 +167,7 @@ async function printReceipt(id){
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
+    getPoster(tmdbIds[id - 1]);
     if (starRatings[id - 1] == ("")){
         starRatings[id - 1] = "No rating";
     }
@@ -177,6 +178,20 @@ async function printReceipt(id){
         alreadyRun = true;
         printDividers();
     }
+}
+
+async function getPoster(id){
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const link = `https://api.themoviedb.org/3/movie/${id}/images`;
+
+    const options = {method: 'GET', headers: {accept: 'application/json'}};
+
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`, options)
+    const data = await res.json();
+
+    const poster = data.posters[0];
+    const filePath = poster.file_path;
+    document.getElementById(`poster`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
 }
 
 async function getDirector(id){
@@ -211,4 +226,5 @@ function homepage(){
     document.getElementById(`receipt`).style.display = "none";
     document.getElementById(`selection-window`).style.display = "none";
     document.getElementById(`homepage`).style.display = "flex";
+    document.getElementById(`secondPage`).style.display = "none";
 }
