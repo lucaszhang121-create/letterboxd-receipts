@@ -158,6 +158,7 @@ async function fetchMovies() {
         }
     }*/
 
+    printReceipt(1);
     document.getElementById(`homepage`).style.display = "none";
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`options`).style.display = "flex";

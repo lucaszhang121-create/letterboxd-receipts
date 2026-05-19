@@ -93,7 +93,7 @@ a {
 
 /*Receipt*/
 #receipt {
-    display: none;
+    display: flex;
     flex-direction: column;
     height: 23rem;
     width: 20rem;
