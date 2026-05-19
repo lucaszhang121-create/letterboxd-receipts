@@ -160,7 +160,7 @@ async function fetchMovies() {
 
     const buttons = document.getElementsByClassName(`movieButton`);
     for (let i = 0; i < buttons.length; i++){
-        getOptionPoster(tmdbIds[i], i + 1);
+        await getOptionPoster(tmdbIds[i], i + 1);
     }
 
     printReceipt(1);

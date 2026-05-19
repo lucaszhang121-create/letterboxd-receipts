@@ -16,7 +16,12 @@ body {
     flex-direction: column;
     gap: 10px;
 }
-
+nav {
+    font-size: 1rem; 
+    position: fixed; 
+    top: 3rem; 
+    left: 3rem;
+}
 canvas {
     z-index: -1;
     position: fixed;
@@ -29,7 +34,7 @@ canvas {
 button {
     padding: 10px 20px;
     background-color: #00e054;
-    color: black;
+    color: #14181c;
     border: 2px solid #14181c;
     font-family: monospace;
     font-size: 16px;
@@ -62,6 +67,7 @@ hr {
     margin: 10px 0;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.85);
+    margin-bottom: 3px;
 }
 footer {
     font-size: 16px;
@@ -70,25 +76,12 @@ a {
     color: rgba(255, 255, 255, 0.85);
 }
 
-/*Selection window*/
-#selection-window {
-    display: none;
+/*secondPage*/
+#secondPage {
+    display: none; 
+    flex-direction: row; 
+    gap: 2rem; 
     align-items: center;
-    flex-direction: column;
-    gap: 5px;
-}
-.rectangle {
-    background-color: #14181c;
-    height: 3rem;
-    width: 21rem;
-    padding-top: 0.65rem;
-    text-transform: uppercase;
-    border-color: #00e054;
-    border: 2px solid #00e054;
-    color: grey;
-    font-family: monospace;
-    font-size: 1.25rem;
-    text-align: center;
 }
 
 /*Receipt*/
@@ -104,6 +97,15 @@ a {
     align-items: center;
     color: rgba(0, 0, 0, 0.75);
 }
+.text {
+    padding-top: 5px;
+    align-self: start;
+    font-family: "Anonymous Pro", monospace;
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 450;
+}
 #title {
     padding-top: 1rem;
     padding-left: 1rem;
@@ -116,13 +118,14 @@ a {
     word-break: break-word;
     text-wrap: balance;
 }
-.text {
-    padding-top: 5px;
-    align-self: start;
-    font-family: "Anonymous Pro", monospace;
-    font-size: 0.85rem;
-    line-height: 0.85rem;
-    text-transform: uppercase;
+#director {
+    align-self: center; 
+    margin-bottom: 0.15rem;
+}
+#orderNumber {
+    font-weight: 450;
+}
+#date {
     font-weight: 450;
 }
 .divider {
@@ -132,6 +135,12 @@ a {
     line-height: 0.5rem;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
+}
+#rating {
+    padding-top: 0rem;
+}
+#thanks {
+    align-self: center; text-transform: uppercase;
 }
 #barcode {
     width: 10rem; 
@@ -144,6 +153,7 @@ a {
     filter: grayscale(100%) brightness(65%);
 }
 
+/*Poster*/
 #posterFrame {
     display: none;
     padding: 0.75rem;
@@ -151,7 +161,23 @@ a {
     align-items: center;
     justify-items: center;
 }
+#poster {
+    display: flex;
+    height: 21.5rem;
+}
 
+/*Options*/
+#options {
+    display: none;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.movieButton {
+    padding: 1rem;
+    background-color: black;
+    border: none;
+    display: flex;
+}
 .optionsFrame {
     display: flex;
     padding: 0.75 rem;
@@ -159,24 +185,7 @@ a {
     align-items: center;
     justify-items: center;
 }
-
-.movieButton {
-    padding: 1rem;
-    background-color: black;
-    border: none;
+.option {
     display: flex;
-}
-
-.poster {
-    display: flex;
-}
-
-.options {
-    display: flex;
-}
-
-#options {
-    display: none;
-    gap: 1rem;
-    margin-top: 1rem;
+    height: 7.5rem;
 }

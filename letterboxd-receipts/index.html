@@ -5,30 +5,30 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <nav style="font-size: 1rem; position: fixed; top: 3rem; left: 3rem;">
-            <button onclick="homepage()" style="background-color: #00e054; border-radius: 2px; border-color: #14181c; color: #14181c;">HOME</button>
+        <nav>
+            <button onclick="homepage()">HOME</button>
         </nav>
         <canvas id="Rain"></canvas>
         <div id="homepage">
-        <header>Letterboxd Receipt Printer</header>
-        <main>
-        <input type="text" placeholder="Enter username" id="username">
-        <button onclick="fetchMovies()">Generate</button>
-        <hr style="margin-bottom: 3px;">
-        </main>
-        <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
+            <header>Letterboxd Receipt Printer</header>
+            <input id="username" type="text" placeholder="Enter username">
+            <button onclick="fetchMovies()">Generate</button>
+            <hr>
+            <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
-        <div id="secondPage" style="display: none; flex-direction: row; gap: 2rem; align-items: center;">
-            <div id="posterFrame"><img id="poster" style="display: flex; height: 17.5rem;"></div>
+        <div id="secondPage">
+            <div id="posterFrame">
+                <img id="poster">
+            </div>
             <div id="receipt">
                 <p id="title"></p>
-                <p class="text" id="director" style="align-self: center; margin-bottom: 0.15rem;">from director john doe</p>
-                <p class="text" id="orderNumber" style="font-weight: 450;">order #0001</p>
-                <p class="text" id="date" style="font-weight: 450;"></p>
-                <p class="divider" id="firstDivider"></p>
-                <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
-                <p class="divider" id="secondDivider"></p>
-                <p class="text" style="align-self: center; text-transform: uppercase;">Thank you for visiting!</p>
+                <p id="director" class="text">from director john doe</p>
+                <p id="orderNumber" class="text">order #0001</p>
+                <p id="date" class="text"></p>
+                <p id="firstDivider" class="divider"></p>
+                <p id="rating" class="text">rating: </p>
+                <p id="secondDivider" class="divider"></p>
+                <p id="thanks" class="text">Thank you for visiting!</p>
                 <img id="barcode" src="barcode.png">
                 <p>letterboxd.receipt.com</p>
                 <img id="logo" src="letterboxd-logo.svg">
@@ -37,30 +37,31 @@
         <div id="options">
             <button class="movieButton" onclick="printReceipt(1)">
                 <div class="optionsFrame">
-                    <img class="options" id="movie1" style="height: 7.5rem;">
+                    <img class="option" id="movie1">
                 </div>
             </button>
             <button class="movieButton" onclick="printReceipt(2)">
                 <div class="optionsFrame">
-                    <img class="options" id="movie2" style="height: 7.5rem;">
+                    <img class="option" id="movie2">
                 </div>
             </button>
             <button class="movieButton" onclick="printReceipt(3)">
                 <div class="optionsFrame">
-                    <img class="options" id="movie3" style="height: 7.5rem;">
+                    <img class="option" id="movie3">
                 </div>
             </button>
             <button class="movieButton" onclick="printReceipt(4)">
                 <div class="optionsFrame">
-                    <img class="options" id="movie4" style="height: 7.5rem;">
+                    <img class="option" id="movie4">
                 </div>
             </button>
             <button class="movieButton" onclick="printReceipt(5)">
                 <div class="optionsFrame">
-                    <img class="options" id="movie5" style="height: 7.5rem;">
+                    <img class="option" id="movie5">
                 </div>
             </button>
         </div>
         <script src="script.js"></script>
     </body>
+
 </html>
