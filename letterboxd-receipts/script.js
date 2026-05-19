@@ -158,15 +158,15 @@ async function fetchMovies() {
         }
     }*/
 
-    printReceipt(1);
-    document.getElementById(`homepage`).style.display = "none";
-    document.getElementById(`secondPage`).style.display = "flex";
-    document.getElementById(`options`).style.display = "flex";
-
     const buttons = document.getElementsByClassName(`movieButton`);
     for (let i = 0; i < buttons.length; i++){
         getOptionPoster(tmdbIds[i], i + 1);
     }
+
+    printReceipt(1);
+    document.getElementById(`homepage`).style.display = "none";
+    document.getElementById(`secondPage`).style.display = "flex";
+    document.getElementById(`options`).style.display = "flex";
 
     //setInterval(digitalRain, 30);
 }
@@ -177,7 +177,7 @@ async function printReceipt(id){
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
-    await getPoster(tmdbIds[id - 1]);
+    await getPoster(id);
 
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
@@ -203,12 +203,8 @@ async function getOptionPoster(id, slot) {
     document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
 }
 //called by printReceipt
-async function getPoster(id){
-    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`)
-    const data = await response.json();
-    const filePath = data.posters[0].file_path;
-    document.getElementById(`poster`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+async function getPoster(slot){
+    document.getElementById(`poster`).src = document.getElementById(`movie${slot}`).src;
 }
 async function printDividers(){
     const dividers = document.getElementsByClassName("divider");
