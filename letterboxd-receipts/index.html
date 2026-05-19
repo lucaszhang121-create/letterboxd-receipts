@@ -19,10 +19,11 @@
         <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
         <div id="secondPage" style="display: none; flex-direction: row; gap: 2rem; align-items: center;">
+            <div id="posterFrame"><img id="poster" style="display: flex; height: 17.5rem;"></div>
             <div id="receipt">
                 <p id="title"></p>
                 <p class="text" id="director" style="align-self: center; margin-bottom: 0.15rem;">from Ryan Coogler</p>
-                <p class="text" id="number" style="font-weight: 450;">order #0001</p>
+                <p class="text" id="orderNumber" style="font-weight: 450;">order #0001</p>
                 <p class="text" id="date" style="font-weight: 450;"></p>
                 <p class="divider" id="firstDivider"></p>
                 <p class="text" id="rating" style="padding-top: 0px;">rating: </p>
@@ -32,18 +33,34 @@
                 <p>letterboxd.receipt.com</p>
                 <img id="logo" src="letterboxd-logo.svg">
             </div>
-            <div id="selection-window">
-                <header>Create a receipt for:</header>
-                <button onclick="printReceipt(1)" class="rectangle"></button>
-                <button onclick="printReceipt(2)" class="rectangle"></button>
-                <button onclick="printReceipt(3)" class="rectangle"></button>
-                <button onclick="printReceipt(4)" class="rectangle"></button>
-                <button onclick="printReceipt(5)" class="rectangle"></button>
-            </div>
         </div>
-        <footer style="display: flex;">
-            <div class="frame"><img class="poster" style="height: 7.5rem;"></div>
-        </footer>
+        <div id="options">
+            <button class="movieButton" onclick="printReceipt(1)">
+                <div class="optionsFrame">
+                    <img class="options" id="movie1" style="height: 7.5rem;">
+                </div>
+            </button>
+            <button class="movieButton" onclick="printReceipt(2)">
+                <div class="optionsFrame">
+                    <img class="options" id="movie2" style="height: 7.5rem;">
+                </div>
+            </button>
+            <button class="movieButton" onclick="printReceipt(3)">
+                <div class="optionsFrame">
+                    <img class="options" id="movie3" style="height: 7.5rem;">
+                </div>
+            </button>
+            <button class="movieButton" onclick="printReceipt(4)">
+                <div class="optionsFrame">
+                    <img class="options" id="movie4" style="height: 7.5rem;">
+                </div>
+            </button>
+            <button class="movieButton" onclick="printReceipt(5)">
+                <div class="optionsFrame">
+                    <img class="options" id="movie5" style="height: 7.5rem;">
+                </div>
+            </button>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>

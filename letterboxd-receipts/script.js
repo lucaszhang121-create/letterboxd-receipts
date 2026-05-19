@@ -1,4 +1,4 @@
-//Need to add tmdb api but also build functionality to handle 429 threshold
+//Build functionality to handle 429 threshold
 
 const canvas = document.getElementById(`Rain`);
 const context = canvas.getContext(`2d`);
@@ -39,7 +39,6 @@ function drawGrid(){
     }
 }
 
-//matrix rain effect
 function digitalRain(){
     context.fillStyle = `rgba(20, 24, 28, 0.1)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -70,18 +69,20 @@ async function noUsername(){
     //do later
 }
 
+//called by generate
 async function fetchMovies() {
     const username = document.getElementById('username').value; //user input for username
     if (username == ""){
-        noUsername();
+        noUsername(); //implement later
         return;
     }
-    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/?random=${Date.now()}`)}`);
-    const text = await rssfeed.text();
+    const rssfeed = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://letterboxd.com/${username}/rss/?random=${Math.trunc(Math.random()*50)}`)}`);
+    const text = await rssfeed.text(); //converts data to text
 
     const parser = new DOMParser();
-    const xmlDocument = parser.parseFromString(text, "text/xml");
+    const xmlDocument = parser.parseFromString(text, "text/xml"); //converts text to xml
     const items = xmlDocument.querySelectorAll("item");
+
     const lb = "https://letterboxd.com";
 
     let numMovies = 5;
@@ -95,28 +96,28 @@ async function fetchMovies() {
 
     for (let i = 0; i < numMovies; i++){
         const each = items[i];
+
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
-        if (title == null) continue;
-        const link = each.getElementsByTagName("link")[0].textContent;
-        const year = each.getElementsByTagNameNS(lb, "filmYear")[0];
-        const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
-        const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
-        const tmdbId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0] ? 
-            each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent: 
-            each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0].textContent;
-        
-        //converts user-specific link to film link
+        if (title == null) continue; //ignores all non-movie/tv items
         movieNames[i] = title.textContent;
+
+        const link = each.getElementsByTagName("link")[0].textContent;
+        //converts user-specific link to film link
         const httpsIndex = link.indexOf("https://") + 8;
         const firstSlash = link.indexOf("/", httpsIndex);
         const secondSlash = link.indexOf("/", firstSlash + 1);
         const thirdSlash = link.indexOf("/", secondSlash + 1);
         const fourthSlash = link.indexOf("/", thirdSlash + 1);
         links[i] = link.substring(0, firstSlash) + link.substring(secondSlash, fourthSlash + 1);
-        console.log(links[i]);
-        releaseYears[i] = year.textContent;
+
+        releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
+
+        const tmdbId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0] ? 
+            each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent: 
+            each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0].textContent;
         tmdbIds[i] = tmdbId;
 
+        const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
         //convert to date format
         const options = {
             weekday: "long",
@@ -126,10 +127,11 @@ async function fetchMovies() {
         };
         let watchedDate = new Date();
         if (date){
-            watchedDate = new Date(date);
+            watchedDate = new Date(date); //creates new Date object if watchedDate is in rss feed
         }
         initialWatchDates[i] = document.getElementById("date").innerText = watchedDate.toLocaleDateString('en-US', options);
 
+        const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
         //convert to star rating
         let stars = "";
         for (let i = 0; i < Math.trunc(rating); i++){
@@ -141,7 +143,11 @@ async function fetchMovies() {
         if (each.getElementsByTagNameNS(lb, "memberLike")[0].textContent == "Yes"){
             stars += " ❤︎";
         }
-        starRatings[i] = stars;
+        if (stars == ""){
+            starRatings[i] = "No rating";
+        } else {
+            starRatings[i] = stars;
+        }
     }
     
     /*context.fillStyle = `rgba(0, 255, 0, 0.25)`;
@@ -151,66 +157,72 @@ async function fetchMovies() {
             context.fillRect(x * fontSize + 1, y * fontSize + 1, fontSize - 2, fontSize - 2);
         }
     }*/
-    document.getElementById(`secondPage`).style.display = "flex";
+
     document.getElementById(`homepage`).style.display = "none";
-    document.getElementById(`selection-window`).style.display = "flex";
-    const buttons = document.getElementsByClassName(`rectangle`);
+    document.getElementById(`secondPage`).style.display = "flex";
+    document.getElementById(`options`).style.display = "flex";
+
+    const buttons = document.getElementsByClassName(`movieButton`);
     for (let i = 0; i < buttons.length; i++){
-        buttons[i].textContent = movieNames[i];
+        getOptionPoster(tmdbIds[i], i + 1);
     }
 
     //setInterval(digitalRain, 30);
 }
-
+//called by one of the options buttons
 async function printReceipt(id){
     //await fetchOrderNumber();
-    for (frame of document.getElementsByClassName(`frame`)){
-        frame.style.display = "flex";
-    }
     document.getElementById(`receipt`).style.display = "flex";
+    document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
     await getPoster(tmdbIds[id - 1]);
-    if (starRatings[id - 1] == ("")){
-        starRatings[id - 1] = "No rating";
-    }
-    document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
+
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
-    document.getElementById(`number`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
+    document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
+    document.getElementById(`orderNumber`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
     if (!alreadyRun){
         alreadyRun = true;
         printDividers();
     }
 }
-
-async function getPoster(id){
-    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const link = `https://api.themoviedb.org/3/movie/${id}/images`;
-
-    const options = {method: 'GET', headers: {accept: 'application/json'}};
-
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`, options)
-    const data = await res.json();
-
-    const poster = data.posters[0];
-    const filePath = poster.file_path;
-    for (eachPoster of document.getElementsByClassName(`poster`)){
-        eachPoster.src = `https://image.tmdb.org/t/p/w500${filePath}`;
-    }
+//called by home
+function homepage(){
+    document.getElementById(`secondPage`).style.display = "none";
+    document.getElementById(`options`).style.display = "none";
+    document.getElementById(`homepage`).style.display = "flex";
 }
 
+//called by fetchMovies
+async function getOptionPoster(id, slot) {
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`);
+    const data = await response.json();
+    const filePath = data.posters[0].file_path;
+    document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+}
+//called by printReceipt
+async function getPoster(id){
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`)
+    const data = await response.json();
+    const filePath = data.posters[0].file_path;
+    document.getElementById(`poster`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+}
+async function printDividers(){
+    const dividers = document.getElementsByClassName("divider");
+    for (const divider of dividers){
+        divider.innerText += "-".repeat(textColumns);
+    }
+}
 async function getDirector(id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
     const link = `https://api.themoviedb.org/3/movie/${id}/credits`;
-
-    const options = {method: 'GET', headers: {accept: 'application/json'}};
-
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`, options)
-    const data = await res.json();
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`)
+    const data = await response.json();
     const directorName = data.crew.find(person => person.job === "Director").name;
     return directorName;
 }
-
 async function fetchOrderNumber(){
     const res = await fetch("https://new-piranha-128179.upstash.io/incr/receipt-counter", {
         headers: {Authorization: "Bearer gwAAAAAAAfSzAAIMQHAxcmVjZWlwdC11c2VyDSYoIw7ypTkOrG5ZBtrNsZhwYgWT63mT6DJqaC9W2zJKsO04diE2jTkCwp1TGCP64rh5rQoyj9_iSSQMgJbA3w" }
@@ -220,19 +232,3 @@ async function fetchOrderNumber(){
     document.getElementById(`number`).textContent = `#${String(orderNum).padStart(4, '0')}`;
 }
 
-async function printDividers(){
-    const dividers = document.getElementsByClassName("divider");
-    for (const divider of dividers){
-        divider.innerText += "-".repeat(textColumns);
-    }
-}
-
-function homepage(){
-    document.getElementById(`receipt`).style.display = "none";
-    document.getElementById(`selection-window`).style.display = "none";
-    document.getElementById(`homepage`).style.display = "flex";
-    document.getElementById(`secondPage`).style.display = "none";
-    for (frame of document.getElementsByClassName(`frame`)){
-        frame.style.display = "none";
-    }
-}

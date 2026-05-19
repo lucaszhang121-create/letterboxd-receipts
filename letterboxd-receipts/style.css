@@ -144,7 +144,7 @@ a {
     filter: grayscale(100%) brightness(65%);
 }
 
-.frame {
+#posterFrame {
     display: none;
     padding: 0.75rem;
     background-color: black;
@@ -152,6 +152,31 @@ a {
     justify-items: center;
 }
 
+.optionsFrame {
+    display: flex;
+    padding: 0.75 rem;
+    background-color: black;
+    align-items: center;
+    justify-items: center;
+}
+
+.movieButton {
+    padding: 1rem;
+    background-color: black;
+    border: none;
+    display: flex;
+}
+
 .poster {
     display: flex;
+}
+
+.options {
+    display: flex;
+}
+
+#options {
+    display: none;
+    gap: 1rem;
+    margin-top: 1rem;
 }
