@@ -56,7 +56,7 @@ function digitalRain(){
     }
 };
 
-let alreadyRun = false;
+let alreadyPrinted = false;
 
 const movieNames = [];
 const links = [];
@@ -134,13 +134,13 @@ async function fetchMovies() {
         const rating = each.getElementsByTagNameNS(lb, "memberRating")[0] ? each.getElementsByTagNameNS(lb, "memberRating")[0].textContent : "No rating provided";
         //convert to star rating
         let stars = "";
-        for (let i = 0; i < Math.trunc(rating); i++){
+        for (let j = 0; j < Math.trunc(rating); j++){
             stars += "★";
         }
         if (parseFloat(rating) % 1 == 0.5){
             stars += "½";
         }
-        if (each.getElementsByTagNameNS(lb, "memberLike")[0].textContent == "Yes"){
+        if (each.getElementsByTagNameNS(lb, "memberLike")[0] == "Yes"){
             stars += " ❤︎";
         }
         if (stars == ""){
@@ -179,11 +179,14 @@ async function printReceipt(id){
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
     await getPoster(id);
 
+    const totalHeight = document.getElementById('title').clientHeight - 32;
+    console.log(Math.round(totalHeight / 32.64));
+
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
     document.getElementById(`orderNumber`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
-    if (!alreadyRun){
-        alreadyRun = true;
+    if (!alreadyPrinted){
+        alreadyPrinted = true;
         printDividers();
     }
 }
@@ -197,7 +200,7 @@ function homepage(){
 //called by fetchMovies
 async function getOptionPoster(id, slot) {
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en-US&api_key=${apiKey}`);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en&api_key=${apiKey}`);
     const data = await response.json();
     const filePath = data.posters[0].file_path;
     document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;

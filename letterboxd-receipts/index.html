@@ -5,18 +5,20 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <nav>
-            <button onclick="homepage()">HOME</button>
-        </nav>
         <canvas id="Rain"></canvas>
         <div id="homepage">
             <header>Letterboxd Receipt Printer</header>
-            <input id="username" type="text" placeholder="Enter username">
-            <button onclick="fetchMovies()">Generate</button>
+            <div>
+                <input id="username" type="text" placeholder="Enter username">
+                <button onclick="fetchMovies()">Generate</button>
+            </div>
             <hr>
             <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
         <div id="secondPage">
+            <nav style="display: flex;">
+                <button onclick="homepage()">HOME</button>
+            </nav>
             <div id="posterFrame">
                 <img id="poster">
             </div>
