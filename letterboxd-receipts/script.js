@@ -165,6 +165,7 @@ async function fetchMovies() {
 
     printReceipt(1);
     document.getElementById(`homepage`).style.display = "none";
+    document.getElementById(`page`).style.display = "block";
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`options`).style.display = "flex";
 
@@ -177,10 +178,15 @@ async function printReceipt(id){
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
-    await getPoster(id);
 
-    const totalHeight = document.getElementById('title').clientHeight - 32;
-    console.log(Math.round(totalHeight / 32.64));
+    /*let totalHeight = document.getElementById('title').clientHeight - 32;
+    while (Math.round(totalHeight / 32.64) > 2){
+        document.getElementById(`title`).style.fontSize = "" + (parseFloat(document.getElementById(`title`).style.fontSize) - 0.25) + "rem";
+        console.log(document.getElementById(`title`).style.fontSize);
+        totalHeight = document.getElementById('title').clientHeight - 32; 
+    }*/
+
+    getPoster(id);
 
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
@@ -206,7 +212,7 @@ async function getOptionPoster(id, slot) {
     document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
 }
 //called by printReceipt
-async function getPoster(slot){
+function getPoster(slot){
     document.getElementById(`poster`).src = document.getElementById(`movie${slot}`).src;
 }
 async function printDividers(){

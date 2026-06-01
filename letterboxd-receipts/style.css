@@ -96,6 +96,7 @@ a {
     padding-right: 1.25rem;
     align-items: center;
     color: rgba(0, 0, 0, 0.75);
+    /*border: 0.5rem solid black;*/
 }
 .text {
     padding-top: 5px;
@@ -171,21 +172,29 @@ a {
     display: none;
     gap: 1rem;
     margin-top: 1rem;
+    justify-self: center;
 }
 .movieButton {
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: black;
     border: none;
     display: flex;
 }
 .optionsFrame {
     display: flex;
-    padding: 0.75 rem;
     background-color: black;
     align-items: center;
     justify-items: center;
 }
 .option {
     display: flex;
-    height: 7.5rem;
+    height: 8.5rem;
+}
+
+/*Page*/
+#page {
+    display: none;
+    background-color: green;
+    border: 0.5rem solid black; 
+    padding: 1rem;
 }
