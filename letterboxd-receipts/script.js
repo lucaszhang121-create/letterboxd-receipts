@@ -12,7 +12,7 @@ const latin = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
 const digits = `0123456789`;
 const alphabet = katakana + latin + digits;
 
-const fontSize = 16;
+const fontSize = 24;
 const columns = canvas.width/fontSize;
 const textColumns = Math.trunc((17.5/0.7)/0.6);
 
@@ -201,6 +201,7 @@ async function fetchMovies() {
 }
 //called by one of the options buttons
 async function printReceipt(id){
+    getPoster(id);
     await fetchOrderNumber();
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
@@ -213,8 +214,6 @@ async function printReceipt(id){
         console.log(document.getElementById(`title`).style.fontSize);
         totalHeight = document.getElementById('title').clientHeight - 32; 
     }*/
-
-    getPoster(id);
 
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
