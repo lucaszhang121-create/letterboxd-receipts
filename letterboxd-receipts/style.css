@@ -190,6 +190,12 @@ a {
     display: flex;
     height: 8.5rem;
 }
+#options2 {
+    display: none;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-self: center;
+}
 
 /*Page*/
 #page {

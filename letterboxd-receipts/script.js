@@ -71,6 +71,13 @@ async function noUsername(){
 
 //called by generate
 async function fetchMovies() {
+    movieNames.length = 0;
+    links.length = 0;
+    releaseYears.length = 0;
+    initialWatchDates.length = 0;
+    starRatings.length = 0;
+    tmdbIds.length = 0;
+
     const username = document.getElementById('username').value; //user input for username
     if (username == ""){
         noUsername(); //implement later
@@ -85,21 +92,32 @@ async function fetchMovies() {
 
     const lb = "https://letterboxd.com";
 
-    let numMovies = 5;
-    if (items.length < 5){
-        numMovies = items.length;
+    const movieItems = [];
+    for (const each of items){
+        const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
+
+        if (title){
+            movieItems.push(each);        
+            movieNames.push(title.textContent);
+        }
     }
-    if (items.length < 1){
+
+    if (movieItems.length < 1){
         console.log("No movies found.");
         return;
     }
 
-    for (let i = 0; i < numMovies; i++){
-        const each = items[i];
+    let numMovies = 10;
+    if (movieItems.length < 10){
+        if (movieItems.length < 5){
+            numMovies = movieItems.length;
+        } else {
+            numMovies = 5;
+        }
+    }
 
-        const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
-        if (title == null) continue; //ignores all non-movie/tv items
-        movieNames[i] = title.textContent;
+    for (let i = 0; i < numMovies; i++){
+        const each = movieItems[i];
 
         const link = each.getElementsByTagName("link")[0].textContent;
         //converts user-specific link to film link
@@ -117,7 +135,7 @@ async function fetchMovies() {
             each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0].textContent;
         tmdbIds[i] = tmdbId;
 
-        const date = each.getElementsByTagNameNS(lb, "watchedDate")[0].textContent;
+        const date = each.getElementsByTagNameNS(lb, "watchedDate")[0];
         //convert to date format
         const options = {
             weekday: "long",
@@ -127,7 +145,7 @@ async function fetchMovies() {
         };
         let watchedDate = new Date();
         if (date){
-            watchedDate = new Date(date); //creates new Date object if watchedDate is in rss feed
+            watchedDate = new Date(date.textContent); //creates new Date object if watchedDate is in rss feed
         }
         initialWatchDates[i] = document.getElementById("date").innerText = watchedDate.toLocaleDateString('en-US', options);
 
@@ -140,7 +158,7 @@ async function fetchMovies() {
         if (parseFloat(rating) % 1 == 0.5){
             stars += "½";
         }
-        if (each.getElementsByTagNameNS(lb, "memberLike")[0] == "Yes"){
+        if (each.getElementsByTagNameNS(lb, "memberLike")[0].textContent == "Yes"){
             stars += " ❤︎";
         }
         if (stars == ""){
@@ -159,7 +177,15 @@ async function fetchMovies() {
     }*/
 
     const buttons = document.getElementsByClassName(`movieButton`);
-    for (let i = 0; i < buttons.length; i++){
+    const count = Math.min(buttons.length, tmdbIds.length);
+
+    document.querySelectorAll(`.movieButton`).forEach(
+        function(eachFrame) {
+            eachFrame.style.display = "none";
+        }
+    );
+
+    for (let i = 0; i < count; i++){
         await getOptionPoster(tmdbIds[i], i + 1);
     }
 
@@ -168,12 +194,14 @@ async function fetchMovies() {
     document.getElementById(`page`).style.display = "block";
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`options`).style.display = "flex";
-
+    if (numMovies > 5){
+        document.getElementById(`options2`).style.display = "flex";
+    }
     //setInterval(digitalRain, 30);
 }
 //called by one of the options buttons
 async function printReceipt(id){
-    //await fetchOrderNumber();
+    await fetchOrderNumber();
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
@@ -198,8 +226,7 @@ async function printReceipt(id){
 }
 //called by home
 function homepage(){
-    document.getElementById(`secondPage`).style.display = "none";
-    document.getElementById(`options`).style.display = "none";
+    document.getElementById(`page`).style.display = "none";
     document.getElementById(`homepage`).style.display = "flex";
 }
 
@@ -209,6 +236,7 @@ async function getOptionPoster(id, slot) {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en&api_key=${apiKey}`);
     const data = await response.json();
     const filePath = data.posters[0].file_path;
+    document.getElementById(`frame${slot}`).style.display = "flex";
     document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
 }
 //called by printReceipt
@@ -231,10 +259,9 @@ async function getDirector(id){
 }
 async function fetchOrderNumber(){
     const res = await fetch("https://new-piranha-128179.upstash.io/incr/receipt-counter", {
-        headers: {Authorization: "Bearer gwAAAAAAAfSzAAIMQHAxcmVjZWlwdC11c2VyDSYoIw7ypTkOrG5ZBtrNsZhwYgWT63mT6DJqaC9W2zJKsO04diE2jTkCwp1TGCP64rh5rQoyj9_iSSQMgJbA3w" }
+        headers: {Authorization: "Bearer gwAAAAAAAfSzAAIMQHAxcmVjZWlwdC11c2VyDSYoIw7ypTkOrG5ZBtrNsZhwYgWT63mT6DJqaC9W2zJKsO04diE2jTkCwp1TGCP64rh5rQoyj9_iSSQMgJbA3w"}
     });
-    const data = await res.json();
-    const orderNum = data.result;
-    document.getElementById(`number`).textContent = `#${String(orderNum).padStart(4, '0')}`;
+    //const data = await res.json();
+    //const orderNum = data.result;
+    //document.getElementById(`number`).textContent = `#${String(orderNum).padStart(4, '0')}`;
 }
-
