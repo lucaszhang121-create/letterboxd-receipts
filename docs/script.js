@@ -107,13 +107,9 @@ async function fetchMovies() {
         return;
     }
 
-    let numMovies = 10;
-    if (movieItems.length < 10){
-        if (movieItems.length < 5){
-            numMovies = movieItems.length;
-        } else {
-            numMovies = 5;
-        }
+    let numMovies = 5;
+    if (movieItems.length < 5){
+        numMovies = movieItems.length;
     }
 
     for (let i = 0; i < numMovies; i++){
