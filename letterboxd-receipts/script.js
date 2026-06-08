@@ -12,7 +12,7 @@ const latin = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
 const digits = `0123456789`;
 const alphabet = katakana + latin + digits;
 
-const fontSize = 24;
+const fontSize = 20;
 const columns = canvas.width/fontSize;
 const textColumns = Math.trunc((17.5/0.7)/0.6);
 
