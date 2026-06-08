@@ -3,7 +3,6 @@ Letterboxd Receipts is a web app inspired by the viral Receiptify app made by Mi
 
 Images:
 ![alt text](https://github.com/lucaszhang121-create/letterboxd-receipts/blob/main/homepage.png?raw=true)
-![alt text](https://github.com/lucaszhang121-create/letterboxd-receipts/blob/main/receipt.png?raw=true)
 ![alt text](https://github.com/lucaszhang121-create/letterboxd-receipts/blob/main/receipt2.png?raw=true)
 
 
