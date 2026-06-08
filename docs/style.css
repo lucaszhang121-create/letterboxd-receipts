@@ -174,7 +174,6 @@ a {
 #options {
     display: none;
     gap: 1rem;
-    margin-top: 1rem;
     justify-self: center;
 }
 .movieButton {
@@ -191,20 +190,25 @@ a {
 }
 .option {
     display: flex;
-    height: 8.5rem;
+    height: 10rem;
 }
 #options2 {
     display: none;
     gap: 1rem;
-    margin-top: 1rem;
     justify-self: center;
 }
 
 /*Page*/
 #page {
     display: none;
-    background-color: green;
+    background-color: #343231;
     border: 0.5rem solid black; 
     padding: 1rem;
-    scale: 0.75;
+}
+.navButton{
+    height: 14.6rem; 
+    align-self: center; 
+    background-color: grey; 
+    display: none;
+    border: 0.2rem solid black;
 }

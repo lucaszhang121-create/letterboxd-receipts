@@ -16,26 +16,33 @@
             <footer>Made by <a href="https://google.com">Lucas Zhang</a></footer>
         </div>
         <nav id="back" style="display: none;">
-            <button onclick="homepage()">BACK</button>
+            <button onclick="back()">BACK</button>
         </nav>
+    <div style="gap: 0; justify-content: flex-start; display: flex; flex-direction: row;">
+        <button class="navButton" onclick="changeOptions()">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
         <div id="page">
             <div id="secondPage">
                 <div id="posterFrame">
                     <img id="poster">
                 </div>
-                    <div id="receipt">
-                        <p id="title">the movie movie</p>
-                        <p id="director" class="text">from director john doe</p>
-                        <p id="orderNumber" class="text">order #0001</p>
-                        <p id="date" class="text"></p>
-                        <p id="firstDivider" class="divider"></p>
-                        <p id="rating" class="text">rating: </p>
-                        <p id="secondDivider" class="divider"></p>
-                        <p id="thanks" class="text">Thank you for visiting!</p>
-                        <img id="barcode" src="barcode.png">
-                        <p>letterboxd.receipt.com</p>
-                        <img id="logo" src="letterboxd-logo.svg">
-                    </div>
+                <div id="receipt">
+                    <p id="title">the movie movie</p>
+                    <p id="director" class="text">from director john doe</p>
+                    <p id="orderNumber" class="text">order #0001</p>
+                    <p id="date" class="text"></p>
+                    <p id="firstDivider" class="divider"></p>
+                    <p id="rating" class="text">rating: </p>
+                    <p id="secondDivider" class="divider"></p>
+                    <p id="thanks" class="text">Thank you for visiting!</p>
+                    <img id="barcode" src="barcode.png">
+                    <p>letterboxd.receipt.com</p>
+                    <img id="logo" src="letterboxd-logo.svg">
+                </div>
             </div>
             <div id="options">
                 <button class="movieButton" id="frame1" onclick="printReceipt(1)">
@@ -92,6 +99,13 @@
                 </button>
             </div>
         </div>
+        <button class="navButton" onclick="changeOptions()">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6" />
+            </svg>
+        </button>
+    </div>
         <script src="script.js"></script>
     </body>
 

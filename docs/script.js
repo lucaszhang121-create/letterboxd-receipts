@@ -1,5 +1,3 @@
-//Build functionality to handle 429 threshold
-
 const canvas = document.getElementById(`Rain`);
 const context = canvas.getContext(`2d`);
 
@@ -107,9 +105,13 @@ async function fetchMovies() {
         return;
     }
 
-    let numMovies = 5;
-    if (movieItems.length < 5){
-        numMovies = movieItems.length;
+    let numMovies = 10;
+    if (numMovies < 10){
+        if (movieItems.length < 5){
+            numMovies = movieItems.length;
+        } else {
+            numMovies = 5;
+        }
     }
 
     for (let i = 0; i < numMovies; i++){
@@ -185,19 +187,25 @@ async function fetchMovies() {
         await getOptionPoster(tmdbIds[i], i + 1);
     }
 
+    document.querySelectorAll(`.navButton`).forEach(function(element) {
+        element.style.display = "block";
+    })
     document.getElementById(`back`).style.display = "flex";
     document.getElementById(`homepage`).style.display = "none";
     document.getElementById(`page`).style.display = "block";
     document.getElementById(`options`).style.display = "flex";
-    if (numMovies > 5){
-        document.getElementById(`options2`).style.display = "flex";
-    }
+    document.getElementById(`options2`).style.display = "none";
     //setInterval(digitalRain, 30);
 }
 //called by one of the options buttons
 async function printReceipt(id){
     getPoster(id);
     await fetchOrderNumber();
+    document.querySelectorAll(`.navButton`).forEach(function(element) {
+        element.style.display = "none";
+    })
+    document.getElementById('options').style.display = "none";
+    document.getElementById('options2').style.display = "none";
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
@@ -219,14 +227,21 @@ async function printReceipt(id){
         printDividers();
     }
 }
-//called by home
-function homepage(){
+//called by back
+function back(){
     if (document.getElementById(`secondPage`).style.display == "none"){
         document.getElementById(`page`).style.display = "none";
         document.getElementById(`homepage`).style.display = "flex";
         document.getElementById(`back`).style.display = "none";
+        document.querySelectorAll(`.navButton`).forEach(function(element) {
+            element.style.display = "none";
+        })
     } else {
         document.getElementById(`secondPage`).style.display = "none";
+        document.getElementById('options').style.display = "flex";
+        document.querySelectorAll(`.navButton`).forEach(function(element) {
+            element.style.display = "block";
+        })
     }
 }
 
@@ -264,4 +279,14 @@ async function fetchOrderNumber(){
     //const data = await res.json();
     //const orderNum = data.result;
     //document.getElementById(`number`).textContent = `#${String(orderNum).padStart(4, '0')}`;
+}
+
+async function changeOptions(){
+    if (document.getElementById(`options`).style.display == "none"){
+        document.getElementById(`options`).style.display = "flex";
+        document.getElementById(`options2`).style.display = "none";
+    } else {
+        document.getElementById(`options`).style.display = "none";
+        document.getElementById(`options2`).style.display = "flex";
+    }
 }
