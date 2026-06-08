@@ -16,6 +16,8 @@ const textColumns = Math.trunc((17.5/0.7)/0.6);
 
 const rainDrops = [];
 
+let numMovies = 0;
+
 for (let i = 0; i < columns; i++){
     rainDrops[i] = 1;
 }
@@ -104,15 +106,7 @@ async function fetchMovies() {
         console.log("No movies found.");
         return;
     }
-
-    let numMovies = 10;
-    if (numMovies < 10){
-        if (movieItems.length < 5){
-            numMovies = movieItems.length;
-        } else {
-            numMovies = 5;
-        }
-    }
+    numMovies = movieItems.length;
 
     for (let i = 0; i < numMovies; i++){
         const each = movieItems[i];
@@ -125,7 +119,7 @@ async function fetchMovies() {
         const thirdSlash = link.indexOf("/", secondSlash + 1);
         const fourthSlash = link.indexOf("/", thirdSlash + 1);
         links[i] = link.substring(0, firstSlash) + link.substring(secondSlash, fourthSlash + 1);
-
+        
         releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
 
         const tmdbId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0] ? 
@@ -211,6 +205,7 @@ async function printReceipt(id){
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
     document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
+    document.getElementById(`runtime`).textContent = "runtime: " + await getRuntime(tmdbIds[id - 1]);
 
     /*let totalHeight = document.getElementById('title').clientHeight - 32;
     while (Math.round(totalHeight / 32.64) > 2){
@@ -266,11 +261,16 @@ async function printDividers(){
 }
 async function getDirector(id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const link = `https://api.themoviedb.org/3/movie/${id}/credits`;
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`)
     const data = await response.json();
     const directorName = data.crew.find(person => person.job === "Director").name;
     return directorName;
+}
+async function getRuntime(id){
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`)
+    const data = await response.json();
+    return Math.trunc(data.runtime/60) + "hr " + (data.runtime%60) + "min";
 }
 async function fetchOrderNumber(){
     const res = await fetch("https://new-piranha-128179.upstash.io/incr/receipt-counter", {
@@ -282,11 +282,13 @@ async function fetchOrderNumber(){
 }
 
 async function changeOptions(){
-    if (document.getElementById(`options`).style.display == "none"){
-        document.getElementById(`options`).style.display = "flex";
-        document.getElementById(`options2`).style.display = "none";
-    } else {
-        document.getElementById(`options`).style.display = "none";
-        document.getElementById(`options2`).style.display = "flex";
+    if (numMovies > 5){
+        if (document.getElementById(`options`).style.display == "none"){
+            document.getElementById(`options`).style.display = "flex";
+            document.getElementById(`options2`).style.display = "none";
+        } else {
+            document.getElementById(`options`).style.display = "none";
+            document.getElementById(`options2`).style.display = "flex";
+        }
     }
 }

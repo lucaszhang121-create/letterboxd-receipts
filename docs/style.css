@@ -142,6 +142,10 @@ a {
 #rating {
     padding-top: 0rem;
 }
+#runtime {
+    padding-top: 0rem;
+    margin-bottom: 0.25rem;
+}
 #thanks {
     align-self: center; text-transform: uppercase;
 }
@@ -208,7 +212,7 @@ a {
 .navButton{
     height: 14.6rem; 
     align-self: center; 
-    background-color: grey; 
+    background-color: darkgray; 
     display: none;
-    border: 0.2rem solid black;
+    border: 0.25rem solid black;
 }
