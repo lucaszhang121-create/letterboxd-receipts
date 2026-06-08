@@ -25,4 +25,7 @@ Frontend: HTML, CSS, and JavaScript
 APIs: Letterboxd RSS Feed and The Movie Database (TMDB) API
 Hosting: Github Pages
 
+Tutorial use:
+A tutorial was used for the Matrix Digital Rain effect function that was ultimately not implemented because it was too distracting for the project.
+
 #horizons
