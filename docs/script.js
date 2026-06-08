@@ -185,10 +185,9 @@ async function fetchMovies() {
         await getOptionPoster(tmdbIds[i], i + 1);
     }
 
-    printReceipt(1);
+    document.getElementById(`back`).style.display = "flex";
     document.getElementById(`homepage`).style.display = "none";
     document.getElementById(`page`).style.display = "block";
-    document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`options`).style.display = "flex";
     if (numMovies > 5){
         document.getElementById(`options2`).style.display = "flex";
@@ -199,6 +198,7 @@ async function fetchMovies() {
 async function printReceipt(id){
     getPoster(id);
     await fetchOrderNumber();
+    document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
@@ -221,8 +221,13 @@ async function printReceipt(id){
 }
 //called by home
 function homepage(){
-    document.getElementById(`page`).style.display = "none";
-    document.getElementById(`homepage`).style.display = "flex";
+    if (document.getElementById(`secondPage`).style.display == "none"){
+        document.getElementById(`page`).style.display = "none";
+        document.getElementById(`homepage`).style.display = "flex";
+        document.getElementById(`back`).style.display = "none";
+    } else {
+        document.getElementById(`secondPage`).style.display = "none";
+    }
 }
 
 //called by fetchMovies
