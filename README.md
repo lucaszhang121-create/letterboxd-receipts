@@ -2,9 +2,10 @@ Description:
 Letterboxd Receipts is a web app inspired by the viral Receiptify app made by Michelle Liu.  Receiptify generates a receipt detailing a Spotify user's most played songs within a certain time period. However, instead of outputting a periodic summary, like many would assume this app does, Letterboxd Receipts creates an individual receipt for one of the last ten movies a user has watched.
 
 Images:
-![alt text](https://github.com/lucaszhang121-create/letterboxd-receipts/blob/main/homepage.png?raw=true)
-![alt text](https://github.com/lucaszhang121-create/letterboxd-receipts/blob/main/receipt2.png?raw=true)
-
+<div style="display: flex; flex-style: column;">
+  <img src="homepage.png" width="750">
+  <img src="receipt2.png" width="750">
+</div>
 
 Motivation:
 A core inspiration for creating Letterboxd Receipts came from Instagram story posts by people who visited the theater recently. Many of them were composed of a picture of the screen taken in the theater during the movie. Personally, not wanting to have to worry about taking my phone out at the perfect time, I have always opted to take a picture of the posters outside the theater instead. Still, the results were not always satisfactory.
