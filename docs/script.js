@@ -281,7 +281,7 @@ async function getDirector(mediaType, id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
 
     if (mediaType == "tv"){
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=en-US&api_key=${apiKey}`)
+        const response = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`)
         const data = await response.json();
         if (data.created_by && data.created_by.length > 0){
             return data.created_by[0].name;
