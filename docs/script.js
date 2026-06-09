@@ -266,6 +266,7 @@ async function getOptionPoster(mediaType, id, slot) {
         document.getElementById(`movie${slot}`).src = `https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie-476x700.jpg`;
     }
 }
+
 //called by printReceipt
 function getPoster(slot){
     document.getElementById(`poster`).src = document.getElementById(`movie${slot}`).src;
