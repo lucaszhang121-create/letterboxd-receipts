@@ -64,6 +64,7 @@ const releaseYears = [];
 const initialWatchDates = [];
 const starRatings = [];
 const tmdbIds = [];
+const mediaTypes = [];
 
 async function noUsername(){
     //do later
@@ -77,6 +78,7 @@ async function fetchMovies() {
     initialWatchDates.length = 0;
     starRatings.length = 0;
     tmdbIds.length = 0;
+    mediaTypes.length = 0;
 
     const username = document.getElementById('username').value; //user input for username
     if (username == ""){
@@ -96,8 +98,9 @@ async function fetchMovies() {
     for (const each of items){
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
         const hasMovieId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0];
+        const hasTvId = each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0];
 
-        if (title && hasMovieId){
+        if (title && (hasMovieId || hasTvId)){
             movieItems.push(each);        
             movieNames.push(title.textContent);
         }
@@ -123,7 +126,16 @@ async function fetchMovies() {
         
         releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
 
-        tmdbIds[i] = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent;
+        const hasMovieId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0];
+        const hasTvId = each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0];
+
+        if (hasMovieId) {
+            tmdbIds[i] = hasMovieId.textContent;
+            mediaTypes[i] = "movie";
+        } else if (hasTvId) {
+            tmdbIds[i] = hasTvId.textContent;
+            mediaTypes[i] = "tv";
+        }
 
         const date = each.getElementsByTagNameNS(lb, "watchedDate")[0];
         //convert to date format
@@ -176,7 +188,7 @@ async function fetchMovies() {
     );
 
     for (let i = 0; i < count; i++){
-        await getOptionPoster(tmdbIds[i], i + 1);
+        await getOptionPoster(mediaTypes[i], tmdbIds[i], i + 1);
     }
 
     document.querySelectorAll(`.navButton`).forEach(function(element) {
@@ -202,8 +214,8 @@ async function printReceipt(id){
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
-    document.getElementById(`director`).textContent = "Director: " + await getDirector(tmdbIds[id - 1]);
-    document.getElementById(`runtime`).textContent = "Runtime: " + await getRuntime(tmdbIds[id - 1]);
+    document.getElementById(`director`).textContent = "Director: " + await getDirector(mediaTypes[id - 1], tmdbIds[id - 1]);
+    document.getElementById(`runtime`).textContent = "Runtime: " + await getRuntime(mediaTypes[id - 1], tmdbIds[id - 1]);
 
     let length = document.getElementById(`title`).textContent.length;
     let margin = 0;
@@ -242,9 +254,9 @@ function back(){
 }
 
 //called by fetchMovies
-async function getOptionPoster(id, slot) {
+async function getOptionPoster(mediaType, id, slot) {
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en&api_key=${apiKey}`);
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/images?language=en&api_key=${apiKey}`);
     const data = await response.json();
     document.getElementById(`frame${slot}`).style.display = "flex";
     if (data.posters && data.posters.length > 0){
@@ -264,18 +276,41 @@ async function printDividers(){
         divider.innerText += "-".repeat(textColumns);
     }
 }
-async function getDirector(id){
+async function getDirector(mediaType, id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`)
-    const data = await response.json();
-    const directorName = data.crew.find(person => person.job === "Director").name;
-    return directorName;
+
+    if (mediaType == "tv"){
+        const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=en-US&api_key=${apiKey}`)
+        const data = await response.json();
+        if (data.created_by && data.created_by.length > 0){
+            return data.created_by[0].name;
+        } else {
+            return "Unknown";
+        }
+    } else {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`)
+        const data = await response.json();
+        const director = data.crew.find(person => person.job === "Director");
+        if (director){
+            return director.name;
+        } else {
+            return "Unknown";
+        }
+    }
 }
-async function getRuntime(id){
+async function getRuntime(mediaType, id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`)
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}?api_key=${apiKey}`)
     const data = await response.json();
-    return Math.trunc(data.runtime/60) + "hr " + (data.runtime%60) + "min";
+    let minutes = 0;
+    if (mediaType == "movie"){
+        return Math.trunc(data.runtime/60) + "hr " + (data.runtime%60) + "min";
+    } else {
+        const averageEpisode = data.episode_run_time[0];
+        const totalEpisodes = data.number_of_episodes;
+        minutes = averageEpisode * totalEpisodes;
+    }
+    return Math.trunc(minutes/60) + "hr " + (minutes%60) + "min";
 }
 async function fetchOrderNumber(){
     const res = await fetch("https://new-piranha-128179.upstash.io/incr/receipt-counter", {
