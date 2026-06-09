@@ -95,8 +95,9 @@ async function fetchMovies() {
     const movieItems = [];
     for (const each of items){
         const title = each.getElementsByTagNameNS(lb, "filmTitle")[0];
+        const hasMovieId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0];
 
-        if (title){
+        if (title && hasMovieId){
             movieItems.push(each);        
             movieNames.push(title.textContent);
         }
@@ -122,10 +123,7 @@ async function fetchMovies() {
         
         releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
 
-        const tmdbId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0] ? 
-            each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent: 
-            each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0].textContent;
-        tmdbIds[i] = tmdbId;
+        tmdbIds[i] = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0].textContent;
 
         const date = each.getElementsByTagNameNS(lb, "watchedDate")[0];
         //convert to date format
@@ -204,15 +202,17 @@ async function printReceipt(id){
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
     document.getElementById('title').textContent = movieNames[id - 1];
-    document.getElementById(`director`).textContent = "from director " + await getDirector(tmdbIds[id - 1]);
-    document.getElementById(`runtime`).textContent = "runtime: " + await getRuntime(tmdbIds[id - 1]);
+    document.getElementById(`director`).textContent = "Director: " + await getDirector(tmdbIds[id - 1]);
+    document.getElementById(`runtime`).textContent = "Runtime: " + await getRuntime(tmdbIds[id - 1]);
 
-    /*let totalHeight = document.getElementById('title').clientHeight - 32;
-    while (Math.round(totalHeight / 32.64) > 2){
-        document.getElementById(`title`).style.fontSize = "" + (parseFloat(document.getElementById(`title`).style.fontSize) - 0.25) + "rem";
-        console.log(document.getElementById(`title`).style.fontSize);
-        totalHeight = document.getElementById('title').clientHeight - 32; 
-    }*/
+    let length = document.getElementById(`title`).textContent.length;
+    let margin = 0;
+    if (length > 30){
+        margin = 0.5;
+    } else if (length > 20){
+        margin = 0.25;
+    }
+    document.getElementById(`title`).style.fontSize = "" + (parseFloat(document.getElementById(`title`).style.fontSize) - margin) + "rem";
 
     document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
@@ -238,6 +238,7 @@ function back(){
             element.style.display = "block";
         })
     }
+    document.getElementById(`title`).style.fontSize = 1.7 + "rem";
 }
 
 //called by fetchMovies
@@ -245,9 +246,13 @@ async function getOptionPoster(id, slot) {
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/images?language=en&api_key=${apiKey}`);
     const data = await response.json();
-    const filePath = data.posters[0].file_path;
     document.getElementById(`frame${slot}`).style.display = "flex";
-    document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+    if (data.posters && data.posters.length > 0){
+        const filePath = data.posters[0].file_path;
+        document.getElementById(`movie${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+    } else {
+        document.getElementById(`movie${slot}`).src = `https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie-476x700.jpg`;
+    }
 }
 //called by printReceipt
 function getPoster(slot){

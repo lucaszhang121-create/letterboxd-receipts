@@ -106,7 +106,6 @@ a {
     font-family: "Anonymous Pro", monospace;
     font-size: 0.85rem;
     line-height: 0.85rem;
-    text-transform: uppercase;
     font-weight: 450;
 }
 #title {
@@ -122,8 +121,7 @@ a {
     text-wrap: balance;
 }
 #director {
-    align-self: center; 
-    margin-bottom: 0.3rem;
+    padding-top: 0.2rem;
 }
 #orderNumber {
     font-weight: 450;
@@ -140,14 +138,15 @@ a {
     color: rgba(0, 0, 0, 0.5);
 }
 #rating {
-    padding-top: 0rem;
+    padding-top: 0.2rem;
 }
 #runtime {
-    padding-top: 0rem;
-    margin-bottom: 0.25rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
 }
 #thanks {
-    align-self: center; text-transform: uppercase;
+    align-self: center; 
+    text-transform: uppercase;
 }
 #barcode {
     width: 10rem; 
