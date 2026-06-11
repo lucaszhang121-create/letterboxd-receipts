@@ -17,7 +17,7 @@ Using Letterboxd Receipts is simple.
 2. Pick a movie by its respective poster from one of the five options on the screen.
 3. If more than five movies are logged, clicking the navigation buttons on both sides can show up to five more options.
 4. Watch a receipt of your most recent watch fill the screen.
-Want to make a receipt for another recent watch too? Click the back button to return to the selection window. If without a Letterboxd account, use username "JosephMoes" for the demo. Popular Letterboxd account usernames also include "jonathanfujii" and "annehathaway".
+Want to make a receipt for another recent watch too? Click the back button to return to the selection window. If without a Letterboxd account, use username "JosephMoes" for the demo. Popular Letterboxd account usernames also include "jonathanfujii" and "annehathaway". To find these Letterboxd account usernames, open up the letterboxd account and check the url. It should be in the format letterboxd.com/[username].
 
 How it works:
 In order to achieve the purpose of the app, the Letterboxd API was needed. Letterboxd is a movie-logging app where over 28 million cinephiles in over 190 countries log, rate, and review films. The issue is, the Letterboxd API is not open to the public. However, according to Letterboxd, "every member profile has an RSS feed of new diary entries, reviews and lists." The RSS feeds can be found at https://letterboxd.com/[username]/rss.
