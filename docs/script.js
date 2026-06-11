@@ -107,7 +107,7 @@ async function fetchMovies() {
     }
 
     if (movieItems.length < 1){
-        console.log("No movies found.");
+        console.log("No movies found. Did you use the correct username? An account's username can be found in the url after letterboxd.com in the format letterboxd.com/[username].");
         return;
     }
     numMovies = movieItems.length;
