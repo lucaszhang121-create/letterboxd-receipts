@@ -236,6 +236,7 @@ async function printReceipt(id){
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
+    document.getElementById(`recommendations`).style.display = "block";
 
     getRecommendations(mediaTypes[id - 1], tmdbIds[id - 1]);
 }
@@ -250,6 +251,7 @@ function back(){
         })
     } else {
         document.getElementById(`secondPage`).style.display = "none";
+        document.getElementById(`recommendations`).style.display = "none";
         document.getElementById('options').style.display = "flex";
         document.querySelectorAll(`.navButton`).forEach(function(element) {
             element.style.display = "block";
@@ -341,7 +343,51 @@ async function changeOptions(){
 
 async function getRecommendations(mediaType, id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
-    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/recommendations?language=en-US&page=1&api_key=${apiKey}`);
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/recommendations?page=1&api_key=${apiKey}`);
     const data = await response.json();
-    console.log(data);
+    let movieRecs = data.results;
+    let recIds = [];
+    let recTypes = [];
+    for (let i = 1; i < movieRecs.length; i++) {
+        let currentMovie = movieRecs[i];
+        let j = i - 1;
+
+        while (j >= 0 && movieRecs[j].vote_count < currentMovie.vote_count) {
+            movieRecs[j + 1] = movieRecs[j];
+            j--;
+        }
+        movieRecs[j + 1] = currentMovie;
+    }
+    movieRecs = movieRecs.slice(0,5);
+    for (let i = 1; i < movieRecs.length; i++) {
+        let currentMovie = movieRecs[i];
+        let j = i - 1;
+
+        while (j >= 0 && movieRecs[j].vote_average < currentMovie.vote_average) {
+            movieRecs[j + 1] = movieRecs[j];
+            j--;
+        }
+        movieRecs[j + 1] = currentMovie;
+    }
+    for (let i = 0; i < movieRecs.length; i++){
+        recIds[i] = movieRecs[i].id;
+        recTypes[i] = movieRecs[i].media_type;
+    }
+    console.log(movieRecs);
+    for (let i = 0; i < movieRecs.length; i++){
+        await getRecommendationPoster(recTypes[i], recIds[i], i + 1);
+    }
+}
+
+async function getRecommendationPoster(mediaType, id, slot) {
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/images?language=en&api_key=${apiKey}`);
+    const data = await response.json();
+    document.getElementById(`recFrame${slot}`).style.display = "flex";
+    if (data.posters && data.posters.length > 0){
+        const filePath = data.posters[0].file_path;
+        document.getElementById(`rec${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
+    } else {
+        document.getElementById(`rec${slot}`).src = `https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie-476x700.jpg`;
+    }
 }
