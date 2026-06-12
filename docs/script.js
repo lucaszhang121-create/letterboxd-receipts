@@ -204,18 +204,18 @@ async function fetchMovies() {
 //called by one of the options buttons
 async function printReceipt(id){
     getPoster(id);
-    await fetchOrderNumber();
-    document.querySelectorAll(`.navButton`).forEach(function(element) {
-        element.style.display = "none";
-    })
-    document.getElementById('options').style.display = "none";
-    document.getElementById('options2').style.display = "none";
-    document.getElementById(`secondPage`).style.display = "flex";
-    document.getElementById(`receipt`).style.display = "flex";
-    document.getElementById(`posterFrame`).style.display = "flex";
+
     document.getElementById('title').textContent = movieNames[id - 1];
+    document.getElementById(`orderNumber`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
+    document.getElementById(`date`).textContent = initialWatchDates[id - 1];
     document.getElementById(`director`).textContent = "Director: " + await getDirector(mediaTypes[id - 1], tmdbIds[id - 1]);
+    document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
     document.getElementById(`runtime`).textContent = "Runtime: " + await getRuntime(mediaTypes[id - 1], tmdbIds[id - 1]);
+
+    if (!alreadyPrinted){
+        alreadyPrinted = true;
+        printDividers();
+    }
 
     let length = document.getElementById(`title`).textContent.length;
     let margin = 0;
@@ -226,13 +226,18 @@ async function printReceipt(id){
     }
     document.getElementById(`title`).style.fontSize = "" + (parseFloat(document.getElementById(`title`).style.fontSize) - margin) + "rem";
 
-    document.getElementById(`date`).textContent = initialWatchDates[id - 1];
-    document.getElementById('rating').textContent = "Rating: " + starRatings[id - 1];  
-    document.getElementById(`orderNumber`).textContent = "Order #" + String(Math.trunc((Math.random() * 9999)) + 1).padStart(4,`0`);
-    if (!alreadyPrinted){
-        alreadyPrinted = true;
-        printDividers();
-    }
+    await fetchOrderNumber();
+
+    document.querySelectorAll(`.navButton`).forEach(function(element) {
+        element.style.display = "none";
+    })
+    document.getElementById('options').style.display = "none";
+    document.getElementById('options2').style.display = "none";
+    document.getElementById(`secondPage`).style.display = "flex";
+    document.getElementById(`receipt`).style.display = "flex";
+    document.getElementById(`posterFrame`).style.display = "flex";
+
+    getRecommendations(mediaTypes[id - 1], tmdbIds[id - 1]);
 }
 //called by back
 function back(){
@@ -281,7 +286,7 @@ async function getDirector(mediaType, id){
     const apiKey = "c6eb8cf5272fb52110935fea02047e95";
 
     if (mediaType == "tv"){
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`)
+        const response = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`);
         const data = await response.json();
         if (data.created_by && data.created_by.length > 0){
             return data.created_by[0].name;
@@ -289,7 +294,7 @@ async function getDirector(mediaType, id){
             return "Unknown";
         }
     } else {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`)
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${apiKey}`);
         const data = await response.json();
         const director = data.crew.find(person => person.job === "Director");
         if (director){
@@ -332,4 +337,11 @@ async function changeOptions(){
             document.getElementById(`options2`).style.display = "flex";
         }
     }
+}
+
+async function getRecommendations(mediaType, id){
+    const apiKey = "c6eb8cf5272fb52110935fea02047e95";
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/recommendations?language=en-US&page=1&api_key=${apiKey}`);
+    const data = await response.json();
+    console.log(data);
 }

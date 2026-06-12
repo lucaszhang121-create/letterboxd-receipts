@@ -6,6 +6,9 @@
     </head>
     <body>
         <canvas id="Rain"></canvas>
+        <div id="recommendations">
+
+        </div>
         <div id="homepage">
             <header>Letterboxd Receipt Printer</header>
             <div>
@@ -18,95 +21,95 @@
         <nav id="back" style="display: none;">
             <button onclick="back()">BACK</button>
         </nav>
-    <div style="gap: 0; justify-content: flex-start; display: flex; flex-direction: row;">
-        <button class="navButton" onclick="changeOptions()">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 18l-6-6 6-6"/>
-            </svg>
-        </button>
-        <div id="page">
-            <div id="secondPage">
-                <div id="posterFrame">
-                    <img id="poster">
+        <div style="gap: 0; justify-content: flex-start; display: flex; flex-direction: row;">
+            <button class="navButton" onclick="changeOptions()">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div id="page">
+                <div id="secondPage">
+                    <div id="posterFrame">
+                        <img id="poster">
+                    </div>
+                    <div id="receipt">
+                        <p id="title" style="font-size: 1.7rem;">the movie movie</p>
+                        <p id="orderNumber" class="text">order #0001</p>
+                        <p id="date" class="text"></p>
+                        <p id="firstDivider" class="divider"></p>
+                        <p id="director" class="text">Director: John Doe</p>
+                        <p id="rating" class="text">rating: </p>
+                        <p id="runtime" class="text">runtime: </p>
+                        <p id="secondDivider" class="divider"></p>
+                        <p id="thanks" class="text">Thank you for visiting!</p>
+                        <img id="barcode" src="barcode.png">
+                        <p>letterboxd.receipt.com</p>
+                        <img id="logo" src="letterboxd-logo.svg">
+                    </div>
                 </div>
-                <div id="receipt">
-                    <p id="title" style="font-size: 1.7rem;">the movie movie</p>
-                    <p id="orderNumber" class="text">order #0001</p>
-                    <p id="date" class="text"></p>
-                    <p id="firstDivider" class="divider"></p>
-                    <p id="director" class="text">Director: John Doe</p>
-                    <p id="rating" class="text">rating: </p>
-                    <p id="runtime" class="text">runtime: </p>
-                    <p id="secondDivider" class="divider"></p>
-                    <p id="thanks" class="text">Thank you for visiting!</p>
-                    <img id="barcode" src="barcode.png">
-                    <p>letterboxd.receipt.com</p>
-                    <img id="logo" src="letterboxd-logo.svg">
+                <div id="options">
+                    <button class="movieButton" id="frame1" onclick="printReceipt(1)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie1">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame2" onclick="printReceipt(2)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie2">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame3" onclick="printReceipt(3)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie3">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame4" onclick="printReceipt(4)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie4">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame5" onclick="printReceipt(5)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie5">
+                        </div>
+                    </button>
+                </div>
+                <div id="options2">
+                    <button class="movieButton" id="frame6" onclick="printReceipt(6)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie6">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame7" onclick="printReceipt(7)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie7">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame8" onclick="printReceipt(8)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie8">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame9" onclick="printReceipt(9)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie9">
+                        </div>
+                    </button>
+                    <button class="movieButton" id="frame10" onclick="printReceipt(10)">
+                        <div class="optionsFrame">
+                            <img class="option" id="movie10">
+                        </div>
+                    </button>
                 </div>
             </div>
-            <div id="options">
-                <button class="movieButton" id="frame1" onclick="printReceipt(1)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie1">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame2" onclick="printReceipt(2)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie2">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame3" onclick="printReceipt(3)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie3">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame4" onclick="printReceipt(4)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie4">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame5" onclick="printReceipt(5)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie5">
-                    </div>
-                </button>
-            </div>
-            <div id="options2">
-                <button class="movieButton" id="frame6" onclick="printReceipt(6)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie6">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame7" onclick="printReceipt(7)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie7">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame8" onclick="printReceipt(8)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie8">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame9" onclick="printReceipt(9)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie9">
-                    </div>
-                </button>
-                <button class="movieButton" id="frame10" onclick="printReceipt(10)">
-                    <div class="optionsFrame">
-                        <img class="option" id="movie10">
-                    </div>
-                </button>
-            </div>
+            <button class="navButton" onclick="changeOptions()">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
         </div>
-        <button class="navButton" onclick="changeOptions()">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6" />
-            </svg>
-        </button>
-    </div>
         <script src="script.js"></script>
     </body>
 
