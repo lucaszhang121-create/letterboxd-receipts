@@ -231,6 +231,7 @@ a {
 #recButton {
     display: none;
     width: 42rem;
+    background-color: grey;
 }
 .recFrame {
     max-width: 12.5vw; 
