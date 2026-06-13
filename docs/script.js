@@ -379,7 +379,6 @@ async function getRecommendations(mediaType, id){
         recIds[i] = movieRecs[i].id;
         recTypes[i] = movieRecs[i].media_type;
     }
-    console.log(movieRecs);
     for (let i = 0; i < movieRecs.length; i++){
         await getRecommendationPoster(recTypes[i], recIds[i], i + 1);
     }
