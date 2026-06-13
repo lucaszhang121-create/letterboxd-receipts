@@ -124,7 +124,11 @@ async function fetchMovies() {
         const fourthSlash = link.indexOf("/", thirdSlash + 1);
         links[i] = link.substring(0, firstSlash) + link.substring(secondSlash, fourthSlash + 1);
         
-        releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
+        if (each.getElementsByTagNameNS(lb, "filmYear")[0]){
+            releaseYears[i] = each.getElementsByTagNameNS(lb, "filmYear")[0].textContent;
+        } else {
+            releaseYears[i] = 2026;
+        }
 
         const hasMovieId = each.getElementsByTagNameNS("https://themoviedb.org", "movieId")[0];
         const hasTvId = each.getElementsByTagNameNS("https://themoviedb.org", "tvId")[0];
