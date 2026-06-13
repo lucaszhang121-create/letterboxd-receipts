@@ -5,7 +5,7 @@ Images:
 <div style="display: flex; flex-style: column;">
   <img src="homepage.png" width="750">
   <img src="selectionwindow.png" width="750">
-  <img src="receipt.png" width="750">
+  <img src="receipt2.png" width="750">
 </div>
 
 Motivation:
