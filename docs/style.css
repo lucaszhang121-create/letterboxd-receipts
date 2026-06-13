@@ -120,9 +120,6 @@ a {
     word-break: break-word;
     text-wrap: balance;
 }
-#director {
-    padding-top: 0.2rem;
-}
 #orderNumber {
     font-weight: 450;
 }
@@ -136,6 +133,9 @@ a {
     line-height: 0.5rem;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
+}
+#director {
+    padding-top: 0.2rem;
 }
 #rating {
     padding-top: 0.2rem;
@@ -179,6 +179,11 @@ a {
     gap: 1rem;
     justify-self: center;
 }
+#options2 {
+    display: none;
+    gap: 1rem;
+    justify-self: center;
+}
 .movieButton {
     padding: 0.75rem;
     background-color: black;
@@ -195,11 +200,7 @@ a {
     display: flex;
     height: 10rem;
 }
-#options2 {
-    display: none;
-    gap: 1rem;
-    justify-self: center;
-}
+
 
 /*Page*/
 #page {
@@ -215,7 +216,6 @@ a {
     display: none;
     border: 0.25rem solid black;
 }
-
 #recommendations {
     background-color: black;
     display: none;
@@ -227,4 +227,15 @@ a {
     z-index: 10;
     justify-items: center;
     overflow-y: auto;
+}
+#recButton {
+    display: none;
+    width: 42rem;
+}
+.recFrame {
+    max-width: 12.5vw; 
+    height: auto;
+}
+.rec {
+    max-width: 100%;
 }

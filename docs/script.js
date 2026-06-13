@@ -236,7 +236,7 @@ async function printReceipt(id){
     document.getElementById(`secondPage`).style.display = "flex";
     document.getElementById(`receipt`).style.display = "flex";
     document.getElementById(`posterFrame`).style.display = "flex";
-    document.getElementById(`recommendations`).style.display = "block";
+    document.getElementById(`recButton`).style.display = "block";
 
     getRecommendations(mediaTypes[id - 1], tmdbIds[id - 1]);
 }
@@ -256,6 +256,8 @@ function back(){
         document.querySelectorAll(`.navButton`).forEach(function(element) {
             element.style.display = "block";
         })
+        document.getElementById(`recButton`).style.display = "None";
+        document.getElementById(`recButton`).textContent = "Show similar films";        
     }
     document.getElementById(`title`).style.fontSize = 1.7 + "rem";
 }
@@ -389,5 +391,15 @@ async function getRecommendationPoster(mediaType, id, slot) {
         document.getElementById(`rec${slot}`).src = `https://image.tmdb.org/t/p/w500${filePath}`;
     } else {
         document.getElementById(`rec${slot}`).src = `https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie-476x700.jpg`;
+    }
+}
+
+async function viewRecommendations(){
+    if (document.getElementById(`recommendations`).style.display == "none"){
+        document.getElementById(`recommendations`).style.display = "block";
+        document.getElementById(`recButton`).textContent = "Hide similar films";
+    } else {
+        document.getElementById(`recommendations`).style.display = "none";
+        document.getElementById(`recButton`).textContent = "Show similar films";        
     }
 }
